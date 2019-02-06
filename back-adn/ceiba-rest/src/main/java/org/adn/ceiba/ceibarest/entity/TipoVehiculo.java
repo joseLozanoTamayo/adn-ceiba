@@ -12,7 +12,6 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
@@ -23,7 +22,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="tipo_vehiculo")
 @NamedQuery(name="TipoVehiculo.findAll", query="SELECT t FROM TipoVehiculo t")
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -87,6 +85,22 @@ public class TipoVehiculo implements Serializable {
 		tarifa.setTipoVehiculo(null);
 
 		return tarifa;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 }

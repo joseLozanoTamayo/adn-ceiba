@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -15,6 +16,7 @@ import lombok.Builder;
 @NamedQuery(name="Parqueadero.findAll", query="SELECT p FROM Parqueadero p")
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class Parqueadero implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -43,9 +45,6 @@ public class Parqueadero implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="fk_tipo_vehiculo")
 	private TipoVehiculo tipoVehiculo;
-
-	public Parqueadero() {
-	}
 
 	public Integer getId() {
 		return this.id;

@@ -1,6 +1,6 @@
 package org.adn.ceiba.ceibarest.bussines;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.adn.ceiba.ceibarest.dto.TipoVehiculoDTO;
 
@@ -13,12 +13,7 @@ import org.adn.ceiba.ceibarest.dto.TipoVehiculoDTO;
 public interface ITipoVehiculoBussines {
 	
 	/**
-	 * metodo que registra tipovehiculo
-	 */
-	public TipoVehiculoDTO crear(TipoVehiculoDTO tipoVehiculoDTO);
-	
-	/**
 	 * 
 	 */
-	public List<TipoVehiculoDTO> obtenerTipoVehiculos();
+	public Collection<TipoVehiculoDTO> obtenerTipoVehiculos();
 }

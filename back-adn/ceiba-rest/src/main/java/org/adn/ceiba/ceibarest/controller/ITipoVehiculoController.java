@@ -1,5 +1,7 @@
 package org.adn.ceiba.ceibarest.controller;
 
+import java.util.Collection;
+
 import org.adn.ceiba.ceibarest.dto.TipoVehiculoDTO;
 import org.springframework.http.ResponseEntity;
 
@@ -18,8 +20,8 @@ public interface ITipoVehiculoController {
 	public String ping();
 	
 	/**
-	 * metodo que crea registro de tipo vehiculo
+	 * metodo que obtiene registro de tipo vehiculo
 	 */
-	public ResponseEntity<TipoVehiculoDTO> create(TipoVehiculoDTO tipoVehiculo);
+	public ResponseEntity<Collection<TipoVehiculoDTO>> obtenerTipoVehiculos();
 
 }

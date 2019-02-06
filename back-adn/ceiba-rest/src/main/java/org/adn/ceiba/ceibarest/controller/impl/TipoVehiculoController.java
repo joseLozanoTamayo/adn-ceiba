@@ -1,5 +1,7 @@
 package org.adn.ceiba.ceibarest.controller.impl;
 
+import java.util.Collection;
+
 import org.adn.ceiba.ceibarest.bussines.ITipoVehiculoBussines;
 import org.adn.ceiba.ceibarest.controller.ITipoVehiculoController;
 import org.adn.ceiba.ceibarest.dto.TipoVehiculoDTO;
@@ -33,11 +35,10 @@ public class TipoVehiculoController implements ITipoVehiculoController {
 		return "Respuesta Exitosa";
 	}
 
-	
 	@Override
-	@RequestMapping(value="/crear", method = RequestMethod.POST)
-	public ResponseEntity<TipoVehiculoDTO> create(@RequestBody TipoVehiculoDTO tipoVehiculo) {
-		return new ResponseEntity<>( tipoVehiculoBussines.crear(tipoVehiculo) , HttpStatus.ACCEPTED);
+	@RequestMapping(value="/obtenerlista", method = RequestMethod.GET)
+	public ResponseEntity<Collection<TipoVehiculoDTO>> obtenerTipoVehiculos() {
+		return new ResponseEntity<>( tipoVehiculoBussines.obtenerTipoVehiculos() , HttpStatus.ACCEPTED);
 	}
 
 }
