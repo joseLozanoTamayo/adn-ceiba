@@ -38,7 +38,7 @@ public class CeibaRestApplication extends SpringBootServletInitializer {
 			// save a couple of customers
 			
 			TipoVehiculo v = new TipoVehiculo();
-			v.setTipo("carro");
+			v.setVehiculo("carro");
 			repository.save(v);
 //			repository.save(new Customer("Chloe", "O'Brian"));
 //			repository.save(new Customer("Kim", "Bauer"));

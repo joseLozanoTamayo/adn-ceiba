@@ -36,12 +36,13 @@ public class TipoVehiculoAdapterTest {
 		
 		tipoVehiculoDTO = TipoVehiculoDTO.builder()
 				.id(TipoVehiculoConstante.ID)
-				.tipo(TipoVehiculoConstante.TIPO)
+				.vehiculo(TipoVehiculoConstante.VEHICULO)
+				.codigo(TipoVehiculoConstante.CODIGO)
 				.build();
 		
 		tipoVehiculo = TipoVehiculo.builder()
 				.id(TipoVehiculoConstante.ID)
-				.tipo(TipoVehiculoConstante.TIPO)
+				.vehiculo(TipoVehiculoConstante.VEHICULO)
 				.build();
 		
 	}
@@ -53,12 +54,12 @@ public class TipoVehiculoAdapterTest {
 	public void verifyConversionEntidad() {
 		Optional<TipoVehiculo> tipoVehiculo = 
 				TipoVehiculoAdapter.getInstance().obtenerEntidad(tipoVehiculoDTO);
-		
+
 		if ( !tipoVehiculo.isPresent() )
 			fail("Objeto no ha sido convertido exitosamente");
-		
-		assertTrue(Strings.isNotBlank(tipoVehiculo.get().getTipo()));
-		assertTrue(Objects.nonNull(tipoVehiculo.get().getTipo()));
+
+		assertTrue(Strings.isNotBlank(tipoVehiculo.get().getVehiculo()));
+		assertTrue(Objects.nonNull(tipoVehiculo.get().getVehiculo()));
 	}
 	
 	/**
@@ -73,8 +74,8 @@ public class TipoVehiculoAdapterTest {
 			fail("Objeto no ha sido convertido exitosamente");
 		
 		assertTrue(tipoVehiculoDTO.get().getId() == TipoVehiculoConstante.ID );
-		assertTrue(Strings.isNotBlank(tipoVehiculoDTO.get().getTipo()));
-		assertTrue(Objects.nonNull(tipoVehiculoDTO.get().getTipo()));
+		assertTrue(Strings.isNotBlank(tipoVehiculoDTO.get().getVehiculo()));
+		assertTrue(Objects.nonNull(tipoVehiculoDTO.get().getVehiculo()));
 	}
 	
 }

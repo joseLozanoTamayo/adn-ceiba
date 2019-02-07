@@ -1,8 +1,17 @@
 package org.adn.ceiba.ceibarest.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -11,56 +20,50 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Tarifa.findAll", query="SELECT t FROM Tarifa t")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Tarifa implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private Integer id;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
 
 	@Column(name="cilindro_vehiculo")
-	private Integer cilindroVehiculo;
+	private Long cilindroVehiculo;
 
 	private String codigo;
 
-	@Column(name="dia_horas")
-	private Integer diaHoras;
+	@Column(name="codigo_tipo_vehiculo")
+	private String codigoTipoVehiculo;
 
-	private Integer hora;
+	private Long dia;
+
+	private Long hora;
 
 	@Column(name="precio_cilindro")
-	private Integer precioCilindro;
+	private Long precioCilindro;
 
 	@Column(name="valor_dia")
-	private Integer valorDia;
+	private Long valorDia;
 
 	@Column(name="valor_hora")
-	private Integer valorHora;
+	private Long valorHora;
 
-	//bi-directional many-to-one association to TipoVehiculo
-	@ManyToOne
-	@JoinColumn(name="fk_tipo_vehiculo")
-	private TipoVehiculo tipoVehiculo;
-
-	//bi-directional many-to-one association to TipoParqueadero
-	@OneToMany(mappedBy="tarifa")
-	private List<TipoParqueadero> tipoParqueaderos;
-
-	public Tarifa() {
-	}
-
-	public Integer getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public Integer getCilindroVehiculo() {
+	public Long getCilindroVehiculo() {
 		return this.cilindroVehiculo;
 	}
 
-	public void setCilindroVehiculo(Integer cilindroVehiculo) {
+	public void setCilindroVehiculo(Long cilindroVehiculo) {
 		this.cilindroVehiculo = cilindroVehiculo;
 	}
 
@@ -72,74 +75,52 @@ public class Tarifa implements Serializable {
 		this.codigo = codigo;
 	}
 
-	public Integer getDiaHoras() {
-		return this.diaHoras;
+	public String getCodigoTipoVehiculo() {
+		return this.codigoTipoVehiculo;
 	}
 
-	public void setDiaHoras(Integer diaHoras) {
-		this.diaHoras = diaHoras;
+	public void setCodigoTipoVehiculo(String codigoTipoVehiculo) {
+		this.codigoTipoVehiculo = codigoTipoVehiculo;
 	}
 
-	public Integer getHora() {
+	public Long getDia() {
+		return this.dia;
+	}
+
+	public void setDia(Long dia) {
+		this.dia = dia;
+	}
+
+	public Long getHora() {
 		return this.hora;
 	}
 
-	public void setHora(Integer hora) {
+	public void setHora(Long hora) {
 		this.hora = hora;
 	}
 
-	public Integer getPrecioCilindro() {
+	public Long getPrecioCilindro() {
 		return this.precioCilindro;
 	}
 
-	public void setPrecioCilindro(Integer precioCilindro) {
+	public void setPrecioCilindro(Long precioCilindro) {
 		this.precioCilindro = precioCilindro;
 	}
 
-	public Integer getValorDia() {
+	public Long getValorDia() {
 		return this.valorDia;
 	}
 
-	public void setValorDia(Integer valorDia) {
+	public void setValorDia(Long valorDia) {
 		this.valorDia = valorDia;
 	}
 
-	public Integer getValorHora() {
+	public Long getValorHora() {
 		return this.valorHora;
 	}
 
-	public void setValorHora(Integer valorHora) {
+	public void setValorHora(Long valorHora) {
 		this.valorHora = valorHora;
-	}
-
-	public TipoVehiculo getTipoVehiculo() {
-		return this.tipoVehiculo;
-	}
-
-	public void setTipoVehiculo(TipoVehiculo tipoVehiculo) {
-		this.tipoVehiculo = tipoVehiculo;
-	}
-
-	public List<TipoParqueadero> getTipoParqueaderos() {
-		return this.tipoParqueaderos;
-	}
-
-	public void setTipoParqueaderos(List<TipoParqueadero> tipoParqueaderos) {
-		this.tipoParqueaderos = tipoParqueaderos;
-	}
-
-	public TipoParqueadero addTipoParqueadero(TipoParqueadero tipoParqueadero) {
-		getTipoParqueaderos().add(tipoParqueadero);
-		tipoParqueadero.setTarifa(this);
-
-		return tipoParqueadero;
-	}
-
-	public TipoParqueadero removeTipoParqueadero(TipoParqueadero tipoParqueadero) {
-		getTipoParqueaderos().remove(tipoParqueadero);
-		tipoParqueadero.setTarifa(null);
-
-		return tipoParqueadero;
 	}
 
 }

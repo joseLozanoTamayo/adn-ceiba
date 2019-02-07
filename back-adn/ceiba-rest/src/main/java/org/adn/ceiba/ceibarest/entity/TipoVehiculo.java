@@ -3,8 +3,10 @@ package org.adn.ceiba.ceibarest.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -29,19 +31,50 @@ public class TipoVehiculo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 
-	private String tipo;
+	private String codigo;
+
+	private String vehiculo;
+	
+	@Column(name="cupo")
+	private Integer cupo;
 
 	//bi-directional many-to-one association to Parqueadero
 	@OneToMany(mappedBy="tipoVehiculo")
 	private List<Parqueadero> parqueaderos;
-
-	//bi-directional many-to-one association to Tarifa
-	@OneToMany(mappedBy="tipoVehiculo")
-	private List<Tarifa> tarifas;
 	
+	@Column(name = "placa_bloqueada")
+	private String placaBloqueada;
+	
+	@Column(name = "dias_permitidos")
+	private String diasPermitidos;
+	
+
+	public Integer getId() {
+		return this.id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getCodigo() {
+		return this.codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	public String getVehiculo() {
+		return this.vehiculo;
+	}
+
+	public void setVehiculo(String vehiculo) {
+		this.vehiculo = vehiculo;
+	}
 
 	public List<Parqueadero> getParqueaderos() {
 		return this.parqueaderos;
@@ -64,43 +97,33 @@ public class TipoVehiculo implements Serializable {
 
 		return parqueadero;
 	}
-
-	public List<Tarifa> getTarifas() {
-		return this.tarifas;
+	
+	public Integer getCupo() {
+		return this.cupo;
 	}
 
-	public void setTarifas(List<Tarifa> tarifas) {
-		this.tarifas = tarifas;
+	public void setCupoCarro(Integer cupo) {
+		this.cupo = cupo;
 	}
 
-	public Tarifa addTarifa(Tarifa tarifa) {
-		getTarifas().add(tarifa);
-		tarifa.setTipoVehiculo(this);
-
-		return tarifa;
+	public String getPlacaBloqueada() {
+		return placaBloqueada;
 	}
 
-	public Tarifa removeTarifa(Tarifa tarifa) {
-		getTarifas().remove(tarifa);
-		tarifa.setTipoVehiculo(null);
-
-		return tarifa;
+	public void setPlacaBloqueada(String placaBloqueada) {
+		this.placaBloqueada = placaBloqueada;
 	}
 
-	public Integer getId() {
-		return id;
+	public String getDiasPermitidos() {
+		return diasPermitidos;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setDiasPermitidos(String diasPermitidos) {
+		this.diasPermitidos = diasPermitidos;
 	}
 
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setCupo(Integer cupo) {
+		this.cupo = cupo;
 	}
 
 }

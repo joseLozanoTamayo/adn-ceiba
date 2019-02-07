@@ -33,7 +33,12 @@ public final class TipoVehiculoAdapter {
 	public Optional<TipoVehiculo> obtenerEntidad(final TipoVehiculoDTO tipoVehiculoDTO) {
 		
 		TipoVehiculo tipoVehiculo = TipoVehiculo.builder()
-				.tipo(tipoVehiculoDTO.getTipo())
+				.id(tipoVehiculoDTO.getId())
+				.vehiculo(tipoVehiculoDTO.getVehiculo())
+				.codigo(tipoVehiculoDTO.getCodigo())
+				.cupo(tipoVehiculoDTO.getCupo())
+				.placaBloqueada(tipoVehiculoDTO.getPlacaBloqueada())
+				.diasPermitidos(tipoVehiculoDTO.getDiasPermitidos())
 				.build();
 		
 		return Optional.of(tipoVehiculo);
@@ -45,7 +50,11 @@ public final class TipoVehiculoAdapter {
 	public Optional<TipoVehiculoDTO> obtenerDTO(final TipoVehiculo tipoVehiculo){
 		TipoVehiculoDTO tipoVehiculoDTO = TipoVehiculoDTO.builder()
 				.id(tipoVehiculo.getId())
-				.tipo(tipoVehiculo.getTipo())
+				.vehiculo(tipoVehiculo.getVehiculo())
+				.codigo(tipoVehiculo.getCodigo())
+				.cupo(tipoVehiculo.getCupo())
+				.placaBloqueada(tipoVehiculo.getPlacaBloqueada())
+				.diasPermitidos(tipoVehiculo.getDiasPermitidos())
 				.build();
 		
 		return Optional.of(tipoVehiculoDTO);
@@ -63,7 +72,11 @@ public final class TipoVehiculoAdapter {
 		listaEntities.forEach(entity -> {
 			lista.add(TipoVehiculoDTO.builder()
 					.id(entity.getId())
-					.tipo(entity.getTipo())
+					.vehiculo(entity.getVehiculo())
+					.codigo(entity.getCodigo())
+					.cupo(entity.getCupo())
+					.placaBloqueada(entity.getPlacaBloqueada())
+					.diasPermitidos(entity.getDiasPermitidos())
 					.build());
 		});
 

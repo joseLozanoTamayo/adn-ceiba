@@ -1,6 +1,7 @@
 package org.adn.ceiba.ceibarest.service;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Optional;
 
 import org.adn.ceiba.ceibarest.entity.Parqueadero;
 import org.adn.ceiba.ceibarest.repository.ParqueaderoRepository;
@@ -26,4 +27,32 @@ public class ParqueaderoService {
 		return parqueaderoRepository.save(entity);
 	}
 
+	/**
+	 * 
+	 */
+	public Collection<Parqueadero> obtenerListaParqueadero(){
+		return (Collection<Parqueadero>) parqueaderoRepository.findAll();
+	}
+
+	/**
+	 * 
+	 */
+	public Optional<Parqueadero> obtenerParqueadero(Integer id) {
+		return parqueaderoRepository.findById(id);
+	}
+	
+	/**
+	 * 
+	 */
+	public int obtenerCupoParqueadero(String estado, Integer idTipoVehiculo) {
+		return parqueaderoRepository.obtenerCupoParqueadero(estado, idTipoVehiculo);
+	}
+	
+	/**
+	 * metodo que registra parqueadero
+	 */
+	public Parqueadero registrarPago(Parqueadero entity) {
+		return parqueaderoRepository.save(entity);
+	}
+	
 }

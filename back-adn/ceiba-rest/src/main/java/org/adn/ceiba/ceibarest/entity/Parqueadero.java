@@ -1,7 +1,16 @@
 package org.adn.ceiba.ceibarest.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,15 +24,24 @@ import lombok.NoArgsConstructor;
 @Entity
 @NamedQuery(name="Parqueadero.findAll", query="SELECT p FROM Parqueadero p")
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Parqueadero implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 
-	private Integer cilindraje;
+	private Long cilindraje;
+
+	private String estado;
+
+	@Column(name="hora_ingreso")
+	private Timestamp horaIngreso;
+
+	@Column(name="hora_salida")
+	private Timestamp horaSalida;
 
 	@Column(name="nombres_propietario")
 	private String nombresPropietario;
@@ -36,15 +54,14 @@ public class Parqueadero implements Serializable {
 	@JoinColumn(name="fk_empleado")
 	private Empleado empleado;
 
-	//bi-directional many-to-one association to TipoParqueadero
-	@ManyToOne
-	@JoinColumn(name="fk_tipo_parqueadero")
-	private TipoParqueadero tipoParqueadero;
-
 	//bi-directional many-to-one association to TipoVehiculo
 	@ManyToOne
 	@JoinColumn(name="fk_tipo_vehiculo")
 	private TipoVehiculo tipoVehiculo;
+	
+	@Column(name = "pago_cancelado")
+	private Long pagoCancelado;
+
 
 	public Integer getId() {
 		return this.id;
@@ -54,12 +71,36 @@ public class Parqueadero implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getCilindraje() {
+	public Long getCilindraje() {
 		return this.cilindraje;
 	}
 
-	public void setCilindraje(Integer cilindraje) {
+	public void setCilindraje(Long cilindraje) {
 		this.cilindraje = cilindraje;
+	}
+
+	public String getEstado() {
+		return this.estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public Timestamp getHoraIngreso() {
+		return this.horaIngreso;
+	}
+
+	public void setHoraIngreso(Timestamp horaIngreso) {
+		this.horaIngreso = horaIngreso;
+	}
+
+	public Timestamp getHoraSalida() {
+		return this.horaSalida;
+	}
+
+	public void setHoraSalida(Timestamp horaSalida) {
+		this.horaSalida = horaSalida;
 	}
 
 	public String getNombresPropietario() {
@@ -86,20 +127,20 @@ public class Parqueadero implements Serializable {
 		this.empleado = empleado;
 	}
 
-	public TipoParqueadero getTipoParqueadero() {
-		return this.tipoParqueadero;
-	}
-
-	public void setTipoParqueadero(TipoParqueadero tipoParqueadero) {
-		this.tipoParqueadero = tipoParqueadero;
-	}
-
 	public TipoVehiculo getTipoVehiculo() {
 		return this.tipoVehiculo;
 	}
 
 	public void setTipoVehiculo(TipoVehiculo tipoVehiculo) {
 		this.tipoVehiculo = tipoVehiculo;
+	}
+
+	public Long getPagoCancelado() {
+		return pagoCancelado;
+	}
+
+	public void setPagoCancelado(Long pagoCancelado) {
+		this.pagoCancelado = pagoCancelado;
 	}
 
 }

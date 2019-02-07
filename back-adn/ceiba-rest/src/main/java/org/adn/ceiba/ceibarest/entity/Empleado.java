@@ -1,8 +1,18 @@
 package org.adn.ceiba.ceibarest.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -11,10 +21,15 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Empleado.findAll", query="SELECT e FROM Empleado e")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Empleado implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 
 	private String apellidos;
@@ -26,9 +41,6 @@ public class Empleado implements Serializable {
 	//bi-directional many-to-one association to Parqueadero
 	@OneToMany(mappedBy="empleado")
 	private List<Parqueadero> parqueaderos;
-
-	public Empleado() {
-	}
 
 	public Integer getId() {
 		return this.id;

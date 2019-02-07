@@ -1,10 +1,7 @@
 package org.adn.ceiba.ceibarest.dto;
 
 import java.io.Serializable;
-
-import org.adn.ceiba.ceibarest.entity.Empleado;
-import org.adn.ceiba.ceibarest.entity.TipoParqueadero;
-import org.adn.ceiba.ceibarest.entity.TipoVehiculo;
+import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,15 +18,25 @@ public class ParqueaderoDTO implements Serializable {
 
 	private Integer id;
 
-	private Integer cilindraje;
+	private Long cilindraje;
+
+	private String estado;
+
+	private Timestamp horaIngreso;
+
+	private Timestamp horaSalida;
 
 	private String nombresPropietario;
 
 	private String placaVehiculo;
 
-	private Empleado empleado;
+	private EmpleadoDTO empleado;
 
-	private TipoParqueadero tipoParqueadero;
-
-	private TipoVehiculo tipoVehiculo;
+	private TipoVehiculoDTO tipoVehiculo;
+	
+	private Long pagoCancelado;
+	
+	private Long valorCilindraje;
+	
+	private Long pagoTotal;
 }

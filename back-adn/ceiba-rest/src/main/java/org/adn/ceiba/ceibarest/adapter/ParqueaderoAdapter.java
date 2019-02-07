@@ -1,6 +1,9 @@
 package org.adn.ceiba.ceibarest.adapter;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -33,6 +36,14 @@ public final class ParqueaderoAdapter {
 	public Optional<Parqueadero> obtenerEntidad(final ParqueaderoDTO parqueaderoDTO) {
 		
 		Parqueadero parqueadero = Parqueadero.builder()
+				.cilindraje(parqueaderoDTO.getCilindraje())
+				.estado(parqueaderoDTO.getEstado())
+				.horaIngreso(Objects.isNull(parqueaderoDTO.getHoraIngreso()) ? Timestamp.from(Instant.now())  : parqueaderoDTO.getHoraIngreso())
+				.horaSalida(parqueaderoDTO.getHoraSalida())
+				.nombresPropietario(parqueaderoDTO.getNombresPropietario())
+				.placaVehiculo(parqueaderoDTO.getPlacaVehiculo())
+				.empleado(EmpleadoAdapter.getInstance().obtenerEntidad(parqueaderoDTO.getEmpleado()).get())
+				.tipoVehiculo(TipoVehiculoAdapter.getInstance().obtenerEntidad(parqueaderoDTO.getTipoVehiculo()).get())
 				.build();
 		
 		return Optional.of(parqueadero);
@@ -44,6 +55,14 @@ public final class ParqueaderoAdapter {
 	public Optional<ParqueaderoDTO> obtenerDTO(final Parqueadero parqueadero){
 		ParqueaderoDTO parqueaderoDTO = ParqueaderoDTO.builder()
 				.id(parqueadero.getId())
+				.cilindraje(parqueadero.getCilindraje())
+				.estado(parqueadero.getEstado())
+				.horaIngreso(Objects.isNull(parqueadero.getHoraIngreso()) ? Timestamp.from(Instant.now())  : parqueadero.getHoraIngreso())
+				.horaSalida(parqueadero.getHoraSalida())
+				.nombresPropietario(parqueadero.getNombresPropietario())
+				.placaVehiculo(parqueadero.getPlacaVehiculo())
+				.empleado(EmpleadoAdapter.getInstance().obtenerDTO(parqueadero.getEmpleado()).get())
+				.tipoVehiculo(TipoVehiculoAdapter.getInstance().obtenerDTO(parqueadero.getTipoVehiculo()).get())
 				.build();	
 		
 		return Optional.of(parqueaderoDTO);
@@ -52,7 +71,7 @@ public final class ParqueaderoAdapter {
 	/**
 	 * retorna Lista vehiculos
 	 */
-	public Optional<List<ParqueaderoDTO>> getListaParqueaderoDTO(List<Parqueadero> listaEntities) {
+	public Optional<Collection<ParqueaderoDTO>> getListaParqueaderoDTO(Collection<Parqueadero> listaEntities) {
 		
 		if ( Objects.isNull(listaEntities)) 
 			return Optional.of(new ArrayList<ParqueaderoDTO>());
@@ -61,6 +80,14 @@ public final class ParqueaderoAdapter {
 		listaEntities.forEach(entity -> {
 			lista.add(ParqueaderoDTO.builder()
 					.id(entity.getId())
+					.cilindraje(entity.getCilindraje())
+					.estado(entity.getEstado())
+					.horaIngreso(Objects.isNull(entity.getHoraIngreso()) ? Timestamp.from(Instant.now())  : entity.getHoraIngreso())
+					.horaSalida(Objects.isNull(entity.getHoraSalida()) ? Timestamp.from(Instant.now())  : entity.getHoraSalida())
+					.nombresPropietario(entity.getNombresPropietario())
+					.placaVehiculo(entity.getPlacaVehiculo())
+					.empleado(EmpleadoAdapter.getInstance().obtenerDTO(entity.getEmpleado()).get())
+					.tipoVehiculo(TipoVehiculoAdapter.getInstance().obtenerDTO(entity.getTipoVehiculo()).get())
 					.build());
 		});
 

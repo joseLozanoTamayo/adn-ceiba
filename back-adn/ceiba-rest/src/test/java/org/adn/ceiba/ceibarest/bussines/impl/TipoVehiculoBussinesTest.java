@@ -34,5 +34,4 @@ public final class TipoVehiculoBussinesTest {
 		Collection<TipoVehiculoDTO> responseLista = tipoVehiculoBussines.obtenerTipoVehiculos();
 		Assert.assertTrue(Objects.nonNull(responseLista));
 	}
-
 }
