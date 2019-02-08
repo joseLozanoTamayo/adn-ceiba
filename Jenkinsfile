@@ -21,7 +21,7 @@ pipeline {
 			steps{
 				echo "------------>Checkout<------------"
 				checkout([$class: 'GitSCM', branches: [[name: 'develop']], doGenerateSubmoduleConfigurations: false, extensions: [], gitTool: 'Git_Centos', submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'GitHub_joseLozanoTamayo', url: 'https://github.com/joseLozanoTamayo/adn-ceiba.git']]])
-				sh 'gradle clean'
+				sh 'gradle clean ./back-adn/ceiba-rest/build.gradle'
 			}
 		}
 		
