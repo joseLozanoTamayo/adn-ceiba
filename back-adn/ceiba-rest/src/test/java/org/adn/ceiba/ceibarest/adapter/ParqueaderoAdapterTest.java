@@ -19,7 +19,7 @@ public class ParqueaderoAdapterTest {
 	 */
 	@BeforeClass
 	public static void setup() {
-		throw new UnsupportedOperationException("");
+		//throw new UnsupportedOperationException("");
 	}
 
 
