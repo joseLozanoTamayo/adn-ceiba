@@ -27,7 +27,7 @@ public final class ParqueaderoBussinesTest {
 
 	@Before
 	public void setup() {
-		throw new UnsupportedOperationException();
+		// throw new UnsupportedOperationException();
 	}
 
 	@Test

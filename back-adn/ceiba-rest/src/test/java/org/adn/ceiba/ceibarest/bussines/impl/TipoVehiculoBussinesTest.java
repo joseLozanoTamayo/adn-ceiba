@@ -27,7 +27,7 @@ public final class TipoVehiculoBussinesTest {
 
 	@Before
 	public void setup() {
-		throw new UnsupportedOperationException("metodo no usado");
+		//throw new UnsupportedOperationException("metodo no usado");
 	}
 
 	@Test
