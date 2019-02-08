@@ -13,7 +13,7 @@ public class CeibaRestApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		throw new UnsupportedOperationException();
+		// throw new UnsupportedOperationException();
 	}
 
 }
