@@ -21,21 +21,21 @@ pipeline {
 			steps{
 				echo "------------>Checkout<------------"
 				checkout([$class: 'GitSCM', branches: [[name: 'develop']], doGenerateSubmoduleConfigurations: false, extensions: [], gitTool: 'Git_Centos', submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'GitHub_joseLozanoTamayo', url: 'https://github.com/joseLozanoTamayo/adn-ceiba.git']]])
-				sh 'gradle clean'
+				sh 'gradle clean --b ./back-adn/ceiba-rest/build.gradle'
 			}
 		}
 		
 		stage('Compile') {
 			steps{
 				echo "------------>Unit Tests<------------"
-				sh 'gradle --b ./build.gradle compileJava'
+				sh 'gradle --b ./back-adn/ceiba-rest/build.gradle compileJava'
 			}
 		}
 		
 		stage('Unit Tests') {
 			steps{
 				echo "------------>Unit Tests<------------"
-				sh 'gradle test -i'
+				sh 'gradle test -i --b ./back-adn/ceiba-rest/build.gradle'
 				junit '**/build/test-results/test/*.xml' //aggregate test results - JUnit
 				step( [ $class: 'JacocoPublisher' ] )
 			}
@@ -53,7 +53,7 @@ pipeline {
 		stage('Build') {
 			steps {
 				echo "------------>Build<------------"
-				sh 'gradle build -x test'
+				sh 'gradle build -x test --b ./back-adn/ceiba-rest/build.gradle'
 			}
 		}
 	}
