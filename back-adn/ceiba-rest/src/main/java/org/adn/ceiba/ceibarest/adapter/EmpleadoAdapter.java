@@ -63,7 +63,7 @@ public final class EmpleadoAdapter {
 		if ( Objects.isNull(listaEntities)) 
 			return Optional.of(new ArrayList<EmpleadoDTO>());
 
-		List<EmpleadoDTO> lista = new ArrayList<EmpleadoDTO>();
+		List<EmpleadoDTO> lista = new ArrayList<>();
 		listaEntities.forEach(entity -> {
 			lista.add(EmpleadoDTO.builder()
 					.id(entity.getId())

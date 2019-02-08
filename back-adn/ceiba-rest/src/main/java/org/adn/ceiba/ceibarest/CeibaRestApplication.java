@@ -1,7 +1,9 @@
 package org.adn.ceiba.ceibarest;
 
-import org.adn.ceiba.ceibarest.entity.TipoVehiculo;
-import org.adn.ceiba.ceibarest.repository.TipoVehiculoRepository;
+
+import org.adn.ceiba.ceibarest.entity.Book;
+import org.adn.ceiba.ceibarest.entity.Publication;
+import org.adn.ceiba.ceibarest.repository.BookRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -33,38 +35,39 @@ public class CeibaRestApplication extends SpringBootServletInitializer {
 	}
 	
 	@Bean
-	public CommandLineRunner demo (TipoVehiculoRepository repository) {
-		return (args) -> {
+	public CommandLineRunner demo (BookRepository repository) {
+		return args -> {
 			// save a couple of customers
 			
-			TipoVehiculo v = new TipoVehiculo();
-			v.setVehiculo("carro");
-			repository.save(v);
-//			repository.save(new Customer("Chloe", "O'Brian"));
-//			repository.save(new Customer("Kim", "Bauer"));
-//			repository.save(new Customer("David", "Palmer"));
-//			repository.save(new Customer("Michelle", "Dessler"));
-
-			// fetch all customers
-			log.info("Customers found with findAll():");
-			log.info("-------------------------------");
-			for (TipoVehiculo customer : repository.findAll()) {
-				log.info(customer.toString());
-			}
-			log.info("");
-
-			// fetch an individual customer by ID
-			repository.findById(1)
-					.ifPresent(customer -> {
-						log.info("Customer found with findById(1L):");
-						log.info("--------------------------------");
-						log.info(customer.toString());
-						log.info("");
-					});
-
-			// fetch customers by last name
-			log.info("Customer found with findByLastName('Bauer'):");
-			log.info("");
+			
+			Publication p = new Book();
+			p.setId(1L);
+			p.setTitle("luis es mi parcero del alma");
+			
+			repository.save( p );
+//			TipoVehiculo v = new Test3();
+//			v.setVehiculo("carro");
+//			
+//			
+//			repository.save(v);
+//
+//			// fetch all customers
+//			log.info("Customers found with findAll():");
+//			log.info("-------------------------------");
+//			log.info("");
+//
+//			// fetch an individual customer by ID
+//			repository.findById(1)
+//					.ifPresent(customer -> {
+//						log.info("Customer found with findById(1L):");
+//						log.info("--------------------------------");
+//						log.info(customer.toString());
+//						log.info("");
+//					});
+//
+//			// fetch customers by last name
+//			log.info("Customer found with findByLastName('Bauer'):");
+//			log.info("");
 		};
 	}
 

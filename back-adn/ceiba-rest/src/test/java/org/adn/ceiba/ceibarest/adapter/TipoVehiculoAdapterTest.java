@@ -52,14 +52,14 @@ public class TipoVehiculoAdapterTest {
 	 */
 	@Test
 	public void verifyConversionEntidad() {
-		Optional<TipoVehiculo> tipoVehiculo = 
+		Optional<TipoVehiculo> tipoVehiculoVerify = 
 				TipoVehiculoAdapter.getInstance().obtenerEntidad(tipoVehiculoDTO);
 
-		if ( !tipoVehiculo.isPresent() )
+		if ( !tipoVehiculoVerify.isPresent() )
 			fail("Objeto no ha sido convertido exitosamente");
 
-		assertTrue(Strings.isNotBlank(tipoVehiculo.get().getVehiculo()));
-		assertTrue(Objects.nonNull(tipoVehiculo.get().getVehiculo()));
+		assertTrue(Strings.isNotBlank(tipoVehiculoVerify.get().getVehiculo()));
+		assertTrue(Objects.nonNull(tipoVehiculoVerify.get().getVehiculo()));
 	}
 	
 	/**
@@ -67,15 +67,15 @@ public class TipoVehiculoAdapterTest {
 	 */
 	@Test
 	public void verifyConversionDTO() {
-		Optional<TipoVehiculoDTO> tipoVehiculoDTO = TipoVehiculoAdapter
+		Optional<TipoVehiculoDTO> tipoVehiculoOptional = TipoVehiculoAdapter
 				.getInstance().obtenerDTO(tipoVehiculo);
 	
-		if ( !tipoVehiculoDTO.isPresent() )
+		if ( !tipoVehiculoOptional.isPresent() )
 			fail("Objeto no ha sido convertido exitosamente");
 		
-		assertTrue(tipoVehiculoDTO.get().getId() == TipoVehiculoConstante.ID );
-		assertTrue(Strings.isNotBlank(tipoVehiculoDTO.get().getVehiculo()));
-		assertTrue(Objects.nonNull(tipoVehiculoDTO.get().getVehiculo()));
+		assertTrue(tipoVehiculoOptional.get().getId().equals(TipoVehiculoConstante.ID)  );
+		assertTrue(Strings.isNotBlank(tipoVehiculoOptional.get().getVehiculo()));
+		assertTrue(Objects.nonNull(tipoVehiculoOptional.get().getVehiculo()));
 	}
 	
 }

@@ -4,6 +4,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 public final class ConstantesParqueadero {
+	
+	
+	private ConstantesParqueadero() {}
 
 	public static String ASIGNADO = "ASIGNADO";
 	

@@ -22,12 +22,12 @@ import lombok.NoArgsConstructor;
  * 
  */
 @Entity
-@Table(name="tipo_vehiculo")
-@NamedQuery(name="TipoVehiculo.findAll", query="SELECT t FROM TipoVehiculo t")
+@Table(name="tipo_vehiculo2")
+@NamedQuery(name="TipoVehiculo2.findAll", query="SELECT t FROM TipoVehiculo2 t")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TipoVehiculo implements Serializable {
+public class TipoVehiculo2 implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -82,13 +82,6 @@ public class TipoVehiculo implements Serializable {
 
 	public void setParqueaderos(List<Parqueadero> parqueaderos) {
 		this.parqueaderos = parqueaderos;
-	}
-
-	public Parqueadero addParqueadero(Parqueadero parqueadero) {
-		getParqueaderos().add(parqueadero);
-		parqueadero.setTipoVehiculo(this);
-
-		return parqueadero;
 	}
 
 	public Parqueadero removeParqueadero(Parqueadero parqueadero) {
