@@ -50,7 +50,7 @@ dependencies {
 	
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	
-    compileOnly 'org.projectlombok:lombok:1.18.4'
+    compile 'org.projectlombok:lombok:1.18.4'
 	// apt 'org.projectlombok:lombok:1.18.4'
 	annotationProcessor 'org.projectlombok:lombok:1.18.4'
 	
