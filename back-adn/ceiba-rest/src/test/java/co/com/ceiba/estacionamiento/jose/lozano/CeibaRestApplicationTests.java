@@ -1,4 +1,4 @@
-package org.adn.ceiba.ceibarest;
+package co.com.ceiba.estacionamiento.jose.lozano;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +13,7 @@ public class CeibaRestApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		// throw new UnsupportedOperationException();
+		Assert.assertTrue(true);
 	}
 
 }
