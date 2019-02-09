@@ -15,6 +15,7 @@ buildscript {
 
 plugins {
   id "org.sonarqube" version "2.7"
+  id 'net.ltgt.apt' version '0.10'
 }
 
 apply plugin: 'java'
@@ -28,6 +29,7 @@ apply plugin: "war"
 group = 'org.adn.ceiba'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
+
 
 repositories {
     jcenter()
@@ -48,9 +50,11 @@ dependencies {
 	
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	
-	compileOnly 'org.projectlombok:lombok:1.18.4'
-    // annotationProcessor 'org.projectlombok:lombok:1.18.4'
+    compileOnly 'org.projectlombok:lombok:1.18.4'
+	// apt 'org.projectlombok:lombok:1.18.4'
+	annotationProcessor 'org.projectlombok:lombok:1.18.4'
 	
+
 	compile("com.h2database:h2")
 	
 }
