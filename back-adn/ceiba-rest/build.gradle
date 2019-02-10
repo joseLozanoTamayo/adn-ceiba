@@ -6,8 +6,10 @@ buildscript {
 		mavenCentral()
 		maven { url 'https://repo.spring.io/snapshot' }
 		maven { url 'https://repo.spring.io/milestone' }
+		maven { url "https://plugins.gradle.org/m2/"   }
 	}
 	dependencies {
+		classpath "io.franzbecker:gradle-lombok:2.0"
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7"
 	}
@@ -15,6 +17,7 @@ buildscript {
 
 plugins {
   id "org.sonarqube" version "2.7"
+  id "io.franzbecker.gradle-lombok" version "2.0"
 }
 
 apply plugin: 'java'
@@ -24,6 +27,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: "org.sonarqube"
 apply plugin: "war"
+apply plugin: "io.franzbecker.gradle-lombok"
 
 group = 'org.adn.ceiba'
 version = '0.0.1-SNAPSHOT'
@@ -48,9 +52,9 @@ dependencies {
 	
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	
-	compileOnly 'org.projectlombok:lombok:1.18.4'
-    // annotationProcessor 'org.projectlombok:lombok:1.18.4'
-	
+	compileOnly "org.projectlombok:lombok:2.0"
+    testCompileOnly "org.projectlombok:lombok:2.0"
+    
 	compile("com.h2database:h2")
 	
 }
