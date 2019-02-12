@@ -1,0 +1,31 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+h1{
+    text-transform: uppercase;
+    text-align: right;
+}
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+td,
+th {
+    width: 25%;
+    text-align: center;
+    text-transform: uppercase;
+}
+tr:hover {
+    td{
+        color: rgb(213, 228, 255);
+        background: rgba(27, 74, 228, 0.877);
+    }
+    mat-icon{
+        color: rgb(213, 228, 255);
+    }
+    cursor: pointer;
+}
+th.mat-header-cell {
+    text-align: center;
+}

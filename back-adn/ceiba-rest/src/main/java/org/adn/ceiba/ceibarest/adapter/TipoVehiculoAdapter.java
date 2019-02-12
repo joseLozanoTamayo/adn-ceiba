@@ -1,6 +1,7 @@
 package org.adn.ceiba.ceibarest.adapter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -63,7 +64,7 @@ public final class TipoVehiculoAdapter {
 	/**
 	 * retorna Lista vehiculos
 	 */
-	public Optional<List<TipoVehiculoDTO>> getListaVehiculoDTO(List<TipoVehiculo> listaEntities) {
+	public Optional<Collection<TipoVehiculoDTO>> getListaVehiculoDTO(Collection<TipoVehiculo> listaEntities) {
 		
 		if ( Objects.isNull(listaEntities)) 
 			return Optional.of(new ArrayList<TipoVehiculoDTO>());

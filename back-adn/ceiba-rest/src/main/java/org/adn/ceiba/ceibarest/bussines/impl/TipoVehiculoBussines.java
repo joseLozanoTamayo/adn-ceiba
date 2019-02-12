@@ -9,14 +9,14 @@ import org.adn.ceiba.ceibarest.dto.TipoVehiculoDTO;
 import org.adn.ceiba.ceibarest.entity.TipoVehiculo;
 import org.adn.ceiba.ceibarest.service.TipoVehiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 /**
  * clase manejadora del negocio de tipovehiculo
  * @author jose.lozano
  *
  */
-@Repository
+@Service
 public class TipoVehiculoBussines implements ITipoVehiculoBussines {
 
 	@Autowired
@@ -24,9 +24,8 @@ public class TipoVehiculoBussines implements ITipoVehiculoBussines {
 
 	@Override
 	public Collection<TipoVehiculoDTO> obtenerTipoVehiculos() {
-		List<TipoVehiculo> listaEntities = tipoVehiculoService.obtenerTipoVehiculos();
-		List<TipoVehiculoDTO> listaVehiculos = TipoVehiculoAdapter
+		Collection<TipoVehiculo> listaEntities = tipoVehiculoService.obtenerTipoVehiculos();
+		return TipoVehiculoAdapter
 				.getInstance().getListaVehiculoDTO(listaEntities).get();
-		return listaVehiculos;
 	}
 }
