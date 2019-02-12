@@ -1,39 +1,65 @@
 package org.adn.ceiba.ceibarest.bussines.impl;
 
-import java.util.Collection;
-import java.util.Objects;
+import static org.mockito.Mockito.when;
 
-import org.adn.ceiba.ceibarest.bussines.ITipoVehiculoBussines;
-import org.adn.ceiba.ceibarest.dto.TipoVehiculoDTO;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.adn.ceiba.ceibarest.dto.ParqueaderoDTO;
+import org.adn.ceiba.ceibarest.entity.Parqueadero;
+import org.adn.ceiba.ceibarest.service.ParqueaderoService;
+import org.adn.ceiba.ceibarest.service.TarifaService;
+import org.adn.ceiba.ceibarest.utils.ParqueaderoConstante;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import lombok.extern.slf4j.Slf4j;
+
 
 /**
  * 
  * @author jose.lozano
  *
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@RunWith(MockitoJUnitRunner.class)
+@Slf4j
 public final class ParqueaderoBussinesTest {
 
-	@Autowired
-	private ITipoVehiculoBussines tipoVehiculoBussines;
+	@InjectMocks
+	private ParqueaderoBussines parqueaderoBussines;
 
+	@Mock
+	private ParqueaderoService parqueaderoService;
+
+	@Mock
+	private TarifaService tarifaService;
+	
+	private Collection<Parqueadero> listaParqueadero = new ArrayList<>();
+	
+	/**
+	 * 
+	 */
 	@Before
 	public void setup() {
-		// throw new UnsupportedOperationException();
+		MockitoAnnotations.initMocks(this);
+		listaParqueadero = ParqueaderoConstante.obtenerListaParqueadero();
 	}
 
+	/**
+	 * 
+	 */
 	@Test
-	public void verifyObtenerTipoVehiculos() {
-		Collection<TipoVehiculoDTO> responseLista = tipoVehiculoBussines.obtenerTipoVehiculos();
-		Assert.assertTrue(Objects.nonNull(responseLista));
+	public void verifyObtenerParqueaderos() {
+		when(parqueaderoService.obtenerListaParqueadero()).thenReturn(listaParqueadero);
+		Collection<ParqueaderoDTO> responseLista = parqueaderoBussines.obtenerListaParqueadero();
+		log.info(" Response : " + responseLista);
+		Assert.assertNotNull(responseLista);
 	}
 
 }

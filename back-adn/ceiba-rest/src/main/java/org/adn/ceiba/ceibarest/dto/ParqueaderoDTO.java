@@ -36,7 +36,7 @@ public class ParqueaderoDTO implements Serializable {
 	
 	private Long pagoCancelado;
 	
-	private Long valorCilindraje;
+	private long valorCilindraje;
 	
 	private Long pagoTotal;
 }

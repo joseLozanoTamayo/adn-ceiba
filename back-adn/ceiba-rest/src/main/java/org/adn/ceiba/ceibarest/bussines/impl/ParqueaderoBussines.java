@@ -1,5 +1,6 @@
 package org.adn.ceiba.ceibarest.bussines.impl;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
@@ -13,13 +14,13 @@ import org.adn.ceiba.ceibarest.bussines.IParqueaderoBussines;
 import org.adn.ceiba.ceibarest.dto.ParqueaderoDTO;
 import org.adn.ceiba.ceibarest.entity.Parqueadero;
 import org.adn.ceiba.ceibarest.entity.Tarifa;
+import org.adn.ceiba.ceibarest.exception.DetailError;
+import org.adn.ceiba.ceibarest.exception.ParqueaderoException;
 import org.adn.ceiba.ceibarest.service.ParqueaderoService;
 import org.adn.ceiba.ceibarest.service.TarifaService;
 import org.adn.ceiba.ceibarest.utils.ConstantesParqueadero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * clase manejadora del negocio de tipovehiculo
@@ -28,7 +29,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Component
 @Transactional
-@Slf4j
 public class ParqueaderoBussines implements IParqueaderoBussines {
 
 	@Autowired
@@ -38,16 +38,28 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	private TarifaService tarifaService;
 
 	/**
-	 * 
+	 * Metodo que registra parqueadero
 	 */
 	@Override
 	public ParqueaderoDTO crear(ParqueaderoDTO parqueaderoDTO) {
 
-		if(!existeCupoParqueadero(parqueaderoDTO))
-			return null;
+		if(!existeCupoParqueadero(parqueaderoDTO)) {
+			DetailError detailError = DetailError.builder()
+					.detail("Cupo de parqueadero lleno")
+					.title("Parqueadero lleno")
+					.timeStamp(Instant.now().getEpochSecond())
+					.build();
+			throw new ParqueaderoException(detailError);
+		}
 
-		if (!verificarIngresoPlaca(parqueaderoDTO))
-			return null;
+		if (!verificarIngresoPlaca(parqueaderoDTO)){
+			DetailError detailError = DetailError.builder()
+					.detail("Placa Inabilitada para parquear")
+					.title("Placa Inabilitada para parquear")
+					.timeStamp(Instant.now().getEpochSecond())
+					.build();
+			throw new ParqueaderoException(detailError);
+		}
 
 		Optional<Parqueadero> entidad = ParqueaderoAdapter.getInstance().obtenerEntidad(parqueaderoDTO);
 
@@ -64,27 +76,28 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	}
 
 	/**
-	 * 
+	 * obtiene lista de parqueaderos
 	 */
 	@Override
 	public Collection<ParqueaderoDTO> obtenerListaParqueadero() {
 		Collection<Parqueadero> listaEntities = parqueaderoService.obtenerListaParqueadero();
-		Optional<Collection<ParqueaderoDTO>> parqueaderoDtoLista = ParqueaderoAdapter
-				.getInstance().getListaParqueaderoDTO(listaEntities);
-		return parqueaderoDtoLista.get();
+		Collection<ParqueaderoDTO> parqueaderoDtoLista = ParqueaderoAdapter.getInstance()
+				.getListaParqueaderoDTO(listaEntities).get();
+		return parqueaderoDtoLista;
 	}
 
 	/**
-	 * 
+	 * obtener parqueadero por medio del id
 	 */
 	@Override
 	public ParqueaderoDTO obtenerParqueadero(ParqueaderoDTO parqueaderoDTO) {
 
-		Tarifa tarifa = tarifaService.findByCodigoTipoVehiculo(parqueaderoDTO.getTipoVehiculo().getCodigo()).get();
-
 		Optional<Parqueadero> entity = parqueaderoService.obtenerParqueadero(parqueaderoDTO.getId());
 		Optional<ParqueaderoDTO> parqueadero = ParqueaderoAdapter
 						.getInstance().obtenerDTO(entity.get());
+		
+		Tarifa tarifa = tarifaService.findByCodigoTipoVehiculo(
+				parqueadero.get().getTipoVehiculo().getCodigo()).get();
 		
 		parqueadero.get().setPagoCancelado(calcularMontoFecha(
 				parqueadero.get().getHoraIngreso().toLocalDateTime(), 
@@ -92,10 +105,10 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 				ConstantesParqueadero.CERO, 
 				tarifa));
 		
-		if(tarifa.getCilindroVehiculo() < parqueaderoDTO.getCilindraje())
+		if(tarifa.getCilindroVehiculo() < parqueadero.get().getCilindraje())
 			parqueadero.get().setValorCilindraje(tarifa.getPrecioCilindro());
 		
-		parqueadero.get().setPagoTotal(parqueadero.get().getPagoCancelado() +parqueadero.get().getValorCilindraje() );
+		parqueadero.get().setPagoTotal(parqueadero.get().getPagoCancelado() + parqueadero.get().getValorCilindraje() );
 		return parqueadero.get();
 	}
 
@@ -134,18 +147,22 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	}
 
 	/**
-	 * 
+	 * metodo que valida si existe el parqueadero
 	 */
 	private boolean existeCupoParqueadero(ParqueaderoDTO parqueaderoDTO) {
-		int cupoVehiculo = parqueaderoService
+		Optional<Integer> cupoVehiculo = parqueaderoService
 				.obtenerCupoParqueadero(ConstantesParqueadero.ASIGNADO, parqueaderoDTO.getTipoVehiculo().getId());
-		if (cupoVehiculo >= parqueaderoDTO.getTipoVehiculo().getCupo())
+		
+		if (!cupoVehiculo.isPresent())
+			return Boolean.TRUE;
+		
+		if (cupoVehiculo.get() >= parqueaderoDTO.getTipoVehiculo().getCupo())
 			return Boolean.FALSE;
 		return Boolean.TRUE;
 	}
 
 	/**
-	 * 
+	 * calcula el monto de la fecha
 	 */
 	private Long calcularMontoFecha(LocalDateTime fechaEntrada, LocalDateTime fechaSalida, Long saldo, Tarifa tarifa) {
 		long horas = ChronoUnit.HOURS.between(fechaEntrada, fechaSalida);

@@ -31,5 +31,5 @@ public interface IParqueaderoBussines {
 	 * metodo que registra pago del paqueadero
 	 */
 	public ParqueaderoDTO registrarPago(ParqueaderoDTO parqueaderoDTO);
-
+	
 }

@@ -44,7 +44,7 @@ public class ParqueaderoService {
 	/**
 	 * 
 	 */
-	public int obtenerCupoParqueadero(String estado, Integer idTipoVehiculo) {
+	public Optional<Integer> obtenerCupoParqueadero(String estado, Integer idTipoVehiculo) {
 		return parqueaderoRepository.obtenerCupoParqueadero(estado, idTipoVehiculo);
 	}
 	
