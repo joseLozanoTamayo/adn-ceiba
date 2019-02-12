@@ -55,11 +55,53 @@ public final class ParqueaderoBussinesTest {
 	 * 
 	 */
 	@Test
-	public void verifyObtenerParqueaderos() {
+	public void verifyObtenerParqueaderoLista() {
 		when(parqueaderoService.obtenerListaParqueadero()).thenReturn(listaParqueadero);
 		Collection<ParqueaderoDTO> responseLista = parqueaderoBussines.obtenerListaParqueadero();
 		log.info(" Response : " + responseLista);
 		Assert.assertNotNull(responseLista);
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	public void verifyParqueaderoListaEmpty() {
+		when(parqueaderoService.obtenerListaParqueadero()).thenReturn(ParqueaderoConstante.PARQUEADERO_NULL);
+		Collection<ParqueaderoDTO> lista = parqueaderoBussines.obtenerListaParqueadero();
+		Assert.assertTrue( lista.isEmpty() );
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	public void verifyParqueaderoListaValue() {
+		when(parqueaderoService.obtenerListaParqueadero()).thenReturn(listaParqueadero);
+		Collection<ParqueaderoDTO> parqueaderos = parqueaderoBussines.obtenerListaParqueadero();
+		parqueaderos.forEach(parqueadero -> {
+			Assert.assertTrue(parqueadero.getId().equals(ParqueaderoConstante.ID) );
+			Assert.assertTrue(parqueadero.getCilindraje().equals(ParqueaderoConstante.CILINDRAJE));
+			Assert.assertTrue(parqueadero.getNombresPropietario().equals(ParqueaderoConstante.NOMBRES_PROPIETARIO));
+			Assert.assertTrue(parqueadero.getPlacaVehiculo().equals(ParqueaderoConstante.PLACA_VEHICULO));
+			Assert.assertTrue(parqueadero.getEstado().equals(ParqueaderoConstante.ESTADO_ASIGNADO));
+			Assert.assertTrue(parqueadero.getPagoCancelado().equals(ParqueaderoConstante.PAGO_CANCELADO));
+			
+			Assert.assertNotNull(parqueadero.getTipoVehiculo());
+			Assert.assertNotNull(parqueadero.getEmpleado());
+			
+		});
+	}
+
+	/**
+	 * 
+	 */
+	@Test(expected = NullPointerException.class)
+	public void verifyParqueaderoListaException() {
+		when(parqueaderoService.obtenerListaParqueadero())
+		.thenThrow(new NullPointerException("Error occurred"));
+		Collection<ParqueaderoDTO> parqueaderos = parqueaderoBussines.obtenerListaParqueadero();
+		Assert.assertTrue( parqueaderos.isEmpty() );
 	}
 
 }

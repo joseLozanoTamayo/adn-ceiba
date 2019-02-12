@@ -88,6 +88,7 @@ public final class ParqueaderoAdapter {
 					.placaVehiculo(entity.getPlacaVehiculo())
 					.empleado(EmpleadoAdapter.getInstance().obtenerDTO(entity.getEmpleado()).get())
 					.tipoVehiculo(TipoVehiculoAdapter.getInstance().obtenerDTO(entity.getTipoVehiculo()).get())
+					.pagoCancelado( Objects.isNull(entity.getPagoCancelado()) ? 0 : entity.getPagoCancelado() )
 					.build());
 		});
 

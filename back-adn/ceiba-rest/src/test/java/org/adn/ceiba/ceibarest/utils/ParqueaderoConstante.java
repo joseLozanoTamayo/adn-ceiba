@@ -32,6 +32,8 @@ public class ParqueaderoConstante {
 
 	public static final Long PAGO_CANCELADO = 1000L;
 	
+	public static final Collection<Parqueadero> PARQUEADERO_NULL = null;
+	
 	public static final Empleado EMPLEADO = Empleado.builder()
 			.id(EmpleadoConstante.ID)
 			.nombres(EmpleadoConstante.NOMBRES)
@@ -58,6 +60,7 @@ public class ParqueaderoConstante {
 				.pagoCancelado(PAGO_CANCELADO)
 				.empleado(EMPLEADO)
 				.tipoVehiculo(TIPO_VEHICULO)
+				.pagoCancelado(PAGO_CANCELADO)
 				.build();
 		
 		listaParqueadero.add(parqueadero);
