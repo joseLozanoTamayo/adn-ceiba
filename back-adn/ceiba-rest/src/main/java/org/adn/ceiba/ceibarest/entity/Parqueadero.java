@@ -27,6 +27,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Parqueadero implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
