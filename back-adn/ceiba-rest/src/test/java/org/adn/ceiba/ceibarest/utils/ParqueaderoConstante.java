@@ -85,6 +85,7 @@ public class ParqueaderoConstante {
 			.pagoCancelado(PAGO_CANCELADO)
 			.pagoCancelado(PAGO_CANCELADO)
 			.tipoVehiculo(TipoVehiculoConstante.TIPO_VEHICULO_DTO_MOTO)
+			.empleado(EmpleadoConstante.EMPLEADO_DTO.get())
 			.build());
 	
 	public static final Optional<ParqueaderoDTO> PARQUEADERO_DTO_CARRO = Optional.of(ParqueaderoDTO.builder()
@@ -98,6 +99,7 @@ public class ParqueaderoConstante {
 			.pagoCancelado(PAGO_CANCELADO)
 			.pagoCancelado(PAGO_CANCELADO)
 			.tipoVehiculo(TipoVehiculoConstante.TIPO_VEHICULO_DTO_CARRO)
+			.empleado(EmpleadoConstante.EMPLEADO_DTO.get())
 			.build());
 	
 	public static final Collection<Parqueadero> obtenerListaParqueadero() {
