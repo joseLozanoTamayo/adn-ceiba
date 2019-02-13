@@ -33,33 +33,33 @@ public class CeibaRestApplication extends SpringBootServletInitializer {
 		SpringApplication.run(CeibaRestApplication.class, args);
 	}
 	
-	@Bean
-	public CommandLineRunner demo (TipoVehiculoRepository repository) {
-		return args -> {
-
-			TipoVehiculo v = new TipoVehiculo();
-			v.setVehiculo("carro");
-			
-			repository.save(v);
-
-			// fetch all customers
-			log.info("Customers found with findAll():");
-			log.info("-------------------------------");
-			log.info("");
-
-			// fetch an individual customer by ID
-			repository.findById(1)
-					.ifPresent(customer -> {
-						log.info("Customer found with findById(1L):");
-						log.info("--------------------------------");
-						log.info(customer.toString());
-						log.info("");
-					});
-
-			// fetch customers by last name
-			log.info("Customer found with findByLastName('Bauer'):");
-			log.info("");
-		};
-	}
+//	@Bean
+//	public CommandLineRunner demo (TipoVehiculoRepository repository) {
+//		return args -> {
+//
+//			TipoVehiculo v = new TipoVehiculo();
+//			v.setVehiculo("carro");
+//			
+//			repository.save(v);
+//
+//			// fetch all customers
+//			log.info("Customers found with findAll():");
+//			log.info("-------------------------------");
+//			log.info("");
+//
+//			// fetch an individual customer by ID
+//			repository.findById(1)
+//					.ifPresent(customer -> {
+//						log.info("Customer found with findById(1L):");
+//						log.info("--------------------------------");
+//						log.info(customer.toString());
+//						log.info("");
+//					});
+//
+//			// fetch customers by last name
+//			log.info("Customer found with findByLastName('Bauer'):");
+//			log.info("");
+//		};
+//	}
 
 }

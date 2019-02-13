@@ -16,10 +16,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ParqueaderoService {
-	
+
 	@Autowired
 	private ParqueaderoRepository parqueaderoRepository;
-	
+
 	/**
 	 * metodo que registra parqueadero
 	 */
@@ -40,7 +40,7 @@ public class ParqueaderoService {
 	public Optional<Parqueadero> obtenerParqueadero(Integer id) {
 		return parqueaderoRepository.findById(id);
 	}
-	
+
 	/**
 	 * 
 	 */

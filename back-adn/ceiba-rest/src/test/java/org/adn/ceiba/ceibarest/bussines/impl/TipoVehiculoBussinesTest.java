@@ -68,7 +68,7 @@ public final class TipoVehiculoBussinesTest {
 		Collection<TipoVehiculoDTO> listaTipoVehiculo = tipoVehiculoBussines.obtenerTipoVehiculos();
 		listaTipoVehiculo.forEach(tipoVehiculo -> {
 			Assert.assertTrue(tipoVehiculo.getId().equals(TipoVehiculoConstante.ID) );
-			Assert.assertTrue(tipoVehiculo.getCodigo().equals(TipoVehiculoConstante.CODIGO));
+			Assert.assertTrue(tipoVehiculo.getCodigo().equals(TipoVehiculoConstante.CODIGO_MOTO));
 			Assert.assertTrue(tipoVehiculo.getCupo().equals(TipoVehiculoConstante.CUPO));
 			Assert.assertTrue(tipoVehiculo.getDiasPermitidos().equals(TipoVehiculoConstante.DIAS_PERMITIDOS));
 			Assert.assertTrue(tipoVehiculo.getPlacaBloqueada().equals(TipoVehiculoConstante.PLACA_BLOQUEADA));

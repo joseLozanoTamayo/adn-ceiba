@@ -1,7 +1,6 @@
 package org.adn.ceiba.ceibarest.bussines.impl;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.adn.ceiba.ceibarest.adapter.TipoVehiculoAdapter;
 import org.adn.ceiba.ceibarest.bussines.ITipoVehiculoBussines;

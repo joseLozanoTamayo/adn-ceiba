@@ -52,17 +52,21 @@ public final class ParqueaderoAdapter {
 	/**
 	 * transforma de entidad a objeto
 	 */
-	public Optional<ParqueaderoDTO> obtenerDTO(final Parqueadero parqueadero){
+	public Optional<ParqueaderoDTO> obtenerDTO(final Optional<Parqueadero> parqueadero){
+		
+		if ( !parqueadero.isPresent())
+			return Optional.of(ParqueaderoDTO.builder().build());
+		
 		ParqueaderoDTO parqueaderoDTO = ParqueaderoDTO.builder()
-				.id(parqueadero.getId())
-				.cilindraje(parqueadero.getCilindraje())
-				.estado(parqueadero.getEstado())
-				.horaIngreso(Objects.isNull(parqueadero.getHoraIngreso()) ? Timestamp.from(Instant.now())  : parqueadero.getHoraIngreso())
-				.horaSalida(parqueadero.getHoraSalida())
-				.nombresPropietario(parqueadero.getNombresPropietario())
-				.placaVehiculo(parqueadero.getPlacaVehiculo())
-				.empleado(EmpleadoAdapter.getInstance().obtenerDTO(parqueadero.getEmpleado()).get())
-				.tipoVehiculo(TipoVehiculoAdapter.getInstance().obtenerDTO(parqueadero.getTipoVehiculo()).get())
+				.id(parqueadero.get().getId())
+				.cilindraje(parqueadero.get().getCilindraje())
+				.estado(parqueadero.get().getEstado())
+				.horaIngreso(Objects.isNull(parqueadero.get().getHoraIngreso()) ? Timestamp.from(Instant.now())  : parqueadero.get().getHoraIngreso())
+				.horaSalida(parqueadero.get().getHoraSalida())
+				.nombresPropietario(parqueadero.get().getNombresPropietario())
+				.placaVehiculo(parqueadero.get().getPlacaVehiculo())
+				.empleado(EmpleadoAdapter.getInstance().obtenerDTO(parqueadero.get().getEmpleado()).get())
+				.tipoVehiculo(TipoVehiculoAdapter.getInstance().obtenerDTO(parqueadero.get().getTipoVehiculo()).get())
 				.build();	
 		
 		return Optional.of(parqueaderoDTO);
