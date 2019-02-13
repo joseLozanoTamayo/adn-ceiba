@@ -86,7 +86,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 			
 			List<ValidationError> validationErrorList = detailError.getErrors().get(fe.getField());			
 			if (Objects.isNull(validationErrorList)) {				
-				validationErrorList = new ArrayList<ValidationError>();
+				validationErrorList = new ArrayList<>();
 				detailError.getErrors().put(fe.getField(), validationErrorList);
 			}
 			ValidationError validationError = new ValidationError();
