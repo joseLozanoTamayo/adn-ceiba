@@ -69,8 +69,8 @@ public final class TipoVehiculoAdapter {
 		if ( Objects.isNull(listaEntities)) 
 			return Optional.of(new ArrayList<TipoVehiculoDTO>());
 		
-		List<TipoVehiculoDTO> lista = new ArrayList<TipoVehiculoDTO>();
-		listaEntities.forEach(entity -> {
+		List<TipoVehiculoDTO> lista = new ArrayList<>();
+		listaEntities.forEach(entity -> 
 			lista.add(TipoVehiculoDTO.builder()
 					.id(entity.getId())
 					.vehiculo(entity.getVehiculo())
@@ -78,8 +78,8 @@ public final class TipoVehiculoAdapter {
 					.cupo(entity.getCupo())
 					.placaBloqueada(entity.getPlacaBloqueada())
 					.diasPermitidos(entity.getDiasPermitidos())
-					.build());
-		});
+					.build())
+		);
 
 		return Optional.of( lista );
 	}

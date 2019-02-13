@@ -117,7 +117,7 @@ public final class ParqueaderoAdapter {
 			return Optional.of(new ArrayList<ParqueaderoDTO>());
 
 
-		List<ParqueaderoDTO> lista = new ArrayList<ParqueaderoDTO>();
+		List<ParqueaderoDTO> lista = new ArrayList<>();
 		listaEntities.forEach(entity -> {
 			
 			EmpleadoDTO empleadoDTO = EmpleadoDTO.builder().build();
