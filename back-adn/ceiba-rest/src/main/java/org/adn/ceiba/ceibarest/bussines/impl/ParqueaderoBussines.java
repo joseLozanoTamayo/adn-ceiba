@@ -83,16 +83,26 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 		Optional<Parqueadero> entity = parqueaderoService.obtenerParqueadero(parqueaderoDTO.getId());
 		Optional<ParqueaderoDTO> parqueaderoOptional = ParqueaderoAdapter.getInstance().obtenerDTO(entity);
 		
-		if (!parqueaderoOptional.isPresent())
-			return ParqueaderoDTO.builder().build();
+		if (!parqueaderoOptional.isPresent()) {
+			throw new ParqueaderoException(DetailError.builder()
+					.detail("Objeto parqueadero vacio")
+					.title("Objeto parqueadero vacio")
+					.timeStamp(Instant.now().getEpochSecond())
+					.build());
+		}
 		
 		ParqueaderoDTO parqueadero = parqueaderoOptional.get();
 		
 		Optional< Tarifa > tarifaOptional = tarifaService.findByCodigoTipoVehiculo(
 				parqueadero.getTipoVehiculo().getCodigo());
 
-		if ( !tarifaOptional.isPresent())
-			return ParqueaderoDTO.builder().build();
+		if ( !tarifaOptional.isPresent()) {
+			throw new ParqueaderoException(DetailError.builder()
+					.detail("Objeto tarifa vacio")
+					.title("Objeto tarifa vacio")
+					.timeStamp(Instant.now().getEpochSecond())
+					.build());
+		}
 		
 		Tarifa tarifa = tarifaOptional.get();
 			
@@ -138,12 +148,11 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 
 		if (!parqueaderoDTO.getTipoVehiculo()
 				.getDiasPermitidos().contains(ConstantesParqueadero.diaSemana())){
-			DetailError detailError = DetailError.builder()
+			throw new ParqueaderoException(DetailError.builder()
 					.detail("Placa Inabilitada para parquear")
 					.title("Placa Inabilitada para parquear")
 					.timeStamp(Instant.now().getEpochSecond())
-					.build();
-			throw new ParqueaderoException(detailError);
+					.build());
 		}
 	}
 
@@ -154,12 +163,11 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 		Optional<Integer> cupoVehiculo = parqueaderoService
 				.obtenerCupoParqueadero(ConstantesParqueadero.ASIGNADO, parqueaderoDTO.getTipoVehiculo().getId());
 		if (cupoVehiculo.get() >= parqueaderoDTO.getTipoVehiculo().getCupo()) {
-			DetailError detailError = DetailError.builder()
+			throw new ParqueaderoException(DetailError.builder()
 					.detail("Cupo de parqueadero lleno")
 					.title("Parqueadero lleno")
 					.timeStamp(Instant.now().getEpochSecond())
-					.build();
-			throw new ParqueaderoException(detailError);
+					.build());
 		}
 	}
 
