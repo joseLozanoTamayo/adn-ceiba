@@ -30,9 +30,6 @@ public class TipoVehiculoBussines implements ITipoVehiculoBussines {
 		Optional<Collection<TipoVehiculoDTO>> listaOptional = TipoVehiculoAdapter
 		.getInstance().getListaVehiculoDTO(listaEntities);
 		
-		if ( !listaOptional.isPresent())
-			return new ArrayList<>();
-		
-		return listaOptional.get();
+		return listaOptional.isPresent() ? listaOptional.get() : new ArrayList<>();
 	}
 }

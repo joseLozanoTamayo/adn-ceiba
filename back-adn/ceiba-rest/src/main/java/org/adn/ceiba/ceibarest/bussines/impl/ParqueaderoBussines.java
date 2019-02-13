@@ -70,10 +70,8 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 		
 		Optional<Collection<ParqueaderoDTO>> listaOptional = ParqueaderoAdapter.getInstance()
 				.getListaParqueaderoDTO(listaEntities);
-		if (!listaOptional.isPresent())
-			return new ArrayList<>();
 		
-		return listaOptional.get();
+		return listaOptional.isPresent() ? listaOptional.get() : new ArrayList<>();
 	}
 
 	/**

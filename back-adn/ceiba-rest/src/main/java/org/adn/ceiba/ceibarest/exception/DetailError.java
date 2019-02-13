@@ -36,7 +36,7 @@ public class DetailError {
 	private String developerMessage;
 			
 	/** The errors. */
-	private Map<String, List<ValidationError>> errors = new HashMap<String, List<ValidationError>>();
+	private Map<String, List<ValidationError>> errors = new HashMap<>();
 
 	public String getTitle() {
 		return title;

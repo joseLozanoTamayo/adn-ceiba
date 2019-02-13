@@ -11,13 +11,6 @@ public class ParqueaderoException extends RuntimeException {
 	/** The detail error. */
 	private DetailError detalleError;
 
-
-	/**
-	 * Instantiates a new credito digital exception.
-	 */
-	public ParqueaderoException() {
-	}
-
 	/**
 	 * Instantiates a new credito digital exception.
 	 *
