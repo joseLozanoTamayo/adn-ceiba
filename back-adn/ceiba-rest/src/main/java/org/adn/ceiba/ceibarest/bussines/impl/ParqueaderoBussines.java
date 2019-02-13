@@ -93,22 +93,32 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	public ParqueaderoDTO obtenerParqueadero(ParqueaderoDTO parqueaderoDTO) {
 
 		Optional<Parqueadero> entity = parqueaderoService.obtenerParqueadero(parqueaderoDTO.getId());
-		Optional<ParqueaderoDTO> parqueadero = ParqueaderoAdapter.getInstance().obtenerDTO(entity);
+		Optional<ParqueaderoDTO> parqueaderoOptional = ParqueaderoAdapter.getInstance().obtenerDTO(entity);
+		
+		if (!parqueaderoOptional.isPresent())
+			return ParqueaderoDTO.builder().build();
+		
+		ParqueaderoDTO parqueadero = parqueaderoOptional.get();
+		
+		Optional< Tarifa > tarifaOptional = tarifaService.findByCodigoTipoVehiculo(
+				parqueadero.getTipoVehiculo().getCodigo());
 
-		Tarifa tarifa = tarifaService.findByCodigoTipoVehiculo(
-				parqueadero.get().getTipoVehiculo().getCodigo()).get();
-
-		parqueadero.get().setPagoCancelado(calcularMontoFecha(
-				parqueadero.get().getHoraIngreso().toLocalDateTime(), 
-				parqueadero.get().getHoraSalida().toLocalDateTime(), 
+		if ( !tarifaOptional.isPresent())
+			return ParqueaderoDTO.builder().build();
+		
+		Tarifa tarifa = tarifaOptional.get();
+			
+		parqueadero.setPagoCancelado(calcularMontoFecha(
+				parqueadero.getHoraIngreso().toLocalDateTime(), 
+				parqueadero.getHoraSalida().toLocalDateTime(), 
 				ConstantesParqueadero.CERO, 
 				tarifa));
 		
-		if(tarifa.getCilindroVehiculo() < parqueadero.get().getCilindraje())
-			parqueadero.get().setValorCilindraje(tarifa.getPrecioCilindro());
+		if(tarifa.getCilindroVehiculo() < parqueadero.getCilindraje())
+			parqueadero.setValorCilindraje(tarifa.getPrecioCilindro());
 
-		parqueadero.get().setPagoTotal(parqueadero.get().getPagoCancelado() + parqueadero.get().getValorCilindraje() );
-		return parqueadero.get();
+		parqueadero.setPagoTotal(parqueadero.getPagoCancelado() + parqueadero.getValorCilindraje() );
+		return parqueadero;
 	}
 
 	/**
@@ -119,7 +129,7 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 
 		Optional<Parqueadero> entidad = ParqueaderoAdapter.getInstance().obtenerEntidad(parqueaderoDTO);
 
-		Parqueadero response = null;
+		Parqueadero response = Parqueadero.builder().build();
 		if (entidad.isPresent())
 			response  = parqueaderoService.crear(entidad.get());
 
