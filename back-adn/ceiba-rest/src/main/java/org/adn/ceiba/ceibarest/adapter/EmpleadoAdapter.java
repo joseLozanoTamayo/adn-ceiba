@@ -31,6 +31,10 @@ public final class EmpleadoAdapter {
 	 * transforma de objeto a entidad
 	 */
 	public Optional<Empleado> obtenerEntidad(final EmpleadoDTO empleadoDTO) {
+		
+		if (Objects.isNull(empleadoDTO)) {
+			return Optional.of(Empleado.builder().build());
+		}
 
 		Empleado empleado = Empleado.builder()
 				.id(empleadoDTO.getId())

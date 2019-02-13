@@ -12,6 +12,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -19,22 +20,22 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @RunWith(MockitoJUnitRunner.class)
 @ContextConfiguration(classes =  {ITipoVehiculoController.class})
 public class TipoVehiculoControllerTest {
-	
+
 	/** The mock mvc. */
 	private MockMvc mockMvc;
 
 	@Mock
 	private TipoVehiculoController tipoVehiculoController;
-	
+
 	/**
 	 * Setup.
 	 */
 	@Before
 	public void setup() {
 		this.mockMvc = MockMvcBuilders.standaloneSetup(tipoVehiculoController).build();
-        MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.initMocks(this);
 	}
-	
+
 	/**
 	 * Verify ping.
 	 *
@@ -42,11 +43,17 @@ public class TipoVehiculoControllerTest {
 	 */
 	@Test
 	public void verifyPing() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/tipovehiculo/ping").accept(MediaType.APPLICATION_JSON))
-		.andExpect(MockMvcResultMatchers.status().isOk())
-		.andDo(print());
+		MvcResult response = mockMvc.perform(MockMvcRequestBuilders.get("/tipovehiculo/ping")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				//		.andExpect(content().string("Respuesta Exitosa"))
+				.andDo(print())
+				.andReturn();
+
+		System.out.println("RESPONSE : " + response.getResponse().getContentAsString());
+
 	}
-	
+
 	/**
 	 * Verifyfind all.
 	 *
@@ -58,5 +65,5 @@ public class TipoVehiculoControllerTest {
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andDo(print());
 	}
-	
+
 }
