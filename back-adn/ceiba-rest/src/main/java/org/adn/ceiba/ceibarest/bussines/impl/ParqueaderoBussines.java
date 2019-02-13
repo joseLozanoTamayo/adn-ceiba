@@ -93,21 +93,20 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	public ParqueaderoDTO obtenerParqueadero(ParqueaderoDTO parqueaderoDTO) {
 
 		Optional<Parqueadero> entity = parqueaderoService.obtenerParqueadero(parqueaderoDTO.getId());
-		Optional<ParqueaderoDTO> parqueadero = ParqueaderoAdapter
-						.getInstance().obtenerDTO(entity.get());
-		
+		Optional<ParqueaderoDTO> parqueadero = ParqueaderoAdapter.getInstance().obtenerDTO(entity);
+
 		Tarifa tarifa = tarifaService.findByCodigoTipoVehiculo(
 				parqueadero.get().getTipoVehiculo().getCodigo()).get();
-		
+
 		parqueadero.get().setPagoCancelado(calcularMontoFecha(
 				parqueadero.get().getHoraIngreso().toLocalDateTime(), 
-				LocalDateTime.now(), 
+				parqueadero.get().getHoraSalida().toLocalDateTime(), 
 				ConstantesParqueadero.CERO, 
 				tarifa));
 		
 		if(tarifa.getCilindroVehiculo() < parqueadero.get().getCilindraje())
 			parqueadero.get().setValorCilindraje(tarifa.getPrecioCilindro());
-		
+
 		parqueadero.get().setPagoTotal(parqueadero.get().getPagoCancelado() + parqueadero.get().getValorCilindraje() );
 		return parqueadero.get();
 	}
