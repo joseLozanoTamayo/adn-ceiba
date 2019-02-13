@@ -3,6 +3,7 @@ package org.adn.ceiba.ceibarest.bussines.impl;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
@@ -81,8 +82,13 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	@Override
 	public Collection<ParqueaderoDTO> obtenerListaParqueadero() {
 		Collection<Parqueadero> listaEntities = parqueaderoService.obtenerListaParqueadero();
-		Collection<ParqueaderoDTO> parqueaderoDtoLista = ParqueaderoAdapter.getInstance()
-				.getListaParqueaderoDTO(listaEntities).get();
+		
+		Optional<Collection<ParqueaderoDTO>> listaOptional = ParqueaderoAdapter.getInstance()
+				.getListaParqueaderoDTO(listaEntities);
+		if (!listaOptional.isPresent())
+			return new ArrayList<>();
+		
+		Collection<ParqueaderoDTO> parqueaderoDtoLista = listaOptional.get();
 		return parqueaderoDtoLista;
 	}
 
