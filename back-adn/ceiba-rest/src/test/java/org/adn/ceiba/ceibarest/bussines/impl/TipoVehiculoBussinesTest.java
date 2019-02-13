@@ -1,38 +1,90 @@
 package org.adn.ceiba.ceibarest.bussines.impl;
 
-import java.util.Collection;
-import java.util.Objects;
+import static org.mockito.Mockito.when;
 
-import org.adn.ceiba.ceibarest.bussines.ITipoVehiculoBussines;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.adn.ceiba.ceibarest.dto.TipoVehiculoDTO;
+import org.adn.ceiba.ceibarest.entity.TipoVehiculo;
+import org.adn.ceiba.ceibarest.service.TipoVehiculoService;
+import org.adn.ceiba.ceibarest.utils.TipoVehiculoConstante;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 /**
  * 
  * @author jose.lozano
  *
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@RunWith(MockitoJUnitRunner.class)
 public final class TipoVehiculoBussinesTest {
 
-	@Autowired
-	private ITipoVehiculoBussines tipoVehiculoBussines;
+	@InjectMocks
+	private TipoVehiculoBussines tipoVehiculoBussines;
+
+	@Mock
+	private TipoVehiculoService tipoVehiculoService; 
+
+	private Collection<TipoVehiculo> tipoVehiculoLista = new ArrayList<>();
 
 	@Before
 	public void setup() {
-		//throw new UnsupportedOperationException("metodo no usado");
+		MockitoAnnotations.initMocks(this);
+		tipoVehiculoLista = TipoVehiculoConstante.getTipoVehiculoLista();
 	}
 
+	/**
+	 * 
+	 */
 	@Test
-	public void verifyObtenerTipoVehiculos() {
-		Collection<TipoVehiculoDTO> responseLista = tipoVehiculoBussines.obtenerTipoVehiculos();
-		Assert.assertTrue(Objects.nonNull(responseLista));
+	public void verifyObtenerTipoVehiculosNotNull() {
+		when(tipoVehiculoService.obtenerTipoVehiculos()).thenReturn(tipoVehiculoLista);
+		Assert.assertNotNull("La lista tipo vehiculo es empty", tipoVehiculoBussines.obtenerTipoVehiculos());
 	}
+
+	/**
+	 * 
+	 */
+	@Test
+	public void verifyTipoVehiculoVecioEmpty() {
+		when(tipoVehiculoService.obtenerTipoVehiculos()).thenReturn(TipoVehiculoConstante.TIPO_VEHICULO_LISTA_NULL);
+		Collection<TipoVehiculoDTO> tipoVehiculos = tipoVehiculoBussines.obtenerTipoVehiculos();
+		Assert.assertTrue( tipoVehiculos.isEmpty() );
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	public void verifyTipoVehiculoValue() {
+		when(tipoVehiculoService.obtenerTipoVehiculos()).thenReturn(tipoVehiculoLista);
+		Collection<TipoVehiculoDTO> listaTipoVehiculo = tipoVehiculoBussines.obtenerTipoVehiculos();
+		listaTipoVehiculo.forEach(tipoVehiculo -> {
+			Assert.assertTrue(tipoVehiculo.getId().equals(TipoVehiculoConstante.ID) );
+			Assert.assertTrue(tipoVehiculo.getCodigo().equals(TipoVehiculoConstante.CODIGO_MOTO));
+			Assert.assertTrue(tipoVehiculo.getCupo().equals(TipoVehiculoConstante.CUPO));
+			Assert.assertTrue(tipoVehiculo.getDiasPermitidos().equals(TipoVehiculoConstante.DIAS_PERMITIDOS));
+			Assert.assertTrue(tipoVehiculo.getPlacaBloqueada().equals(TipoVehiculoConstante.PLACA_BLOQUEADA));
+			Assert.assertTrue(tipoVehiculo.getVehiculo().equals(TipoVehiculoConstante.VEHICULO));
+		});
+	}
+
+	/**
+	 * 
+	 */
+	@Test(expected = NullPointerException.class)
+	public void verifyTipoVehiculoException() {
+		when(tipoVehiculoService.obtenerTipoVehiculos())
+		.thenThrow(new NullPointerException("Error occurred"));
+		Collection<TipoVehiculoDTO> tipoVehiculos = tipoVehiculoBussines.obtenerTipoVehiculos();
+		Assert.assertTrue( tipoVehiculos.isEmpty() );
+	}
+
 }

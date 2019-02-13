@@ -33,18 +33,19 @@ public class TipoVehiculoAdapterTest {
 	 */
 	@BeforeClass
 	public static void setup() {
-		
+
 		tipoVehiculoDTO = TipoVehiculoDTO.builder()
 				.id(TipoVehiculoConstante.ID)
 				.vehiculo(TipoVehiculoConstante.VEHICULO)
-				.codigo(TipoVehiculoConstante.CODIGO)
+				.codigo(TipoVehiculoConstante.CODIGO_MOTO)
 				.build();
-		
+
 		tipoVehiculo = TipoVehiculo.builder()
 				.id(TipoVehiculoConstante.ID)
 				.vehiculo(TipoVehiculoConstante.VEHICULO)
+				.codigo(TipoVehiculoConstante.CODIGO_MOTO)
 				.build();
-		
+
 	}
 
 	/**

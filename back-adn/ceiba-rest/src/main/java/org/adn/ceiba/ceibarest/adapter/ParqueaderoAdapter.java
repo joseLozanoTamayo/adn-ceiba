@@ -8,8 +8,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.adn.ceiba.ceibarest.dto.EmpleadoDTO;
 import org.adn.ceiba.ceibarest.dto.ParqueaderoDTO;
+import org.adn.ceiba.ceibarest.dto.TipoVehiculoDTO;
+import org.adn.ceiba.ceibarest.entity.Empleado;
 import org.adn.ceiba.ceibarest.entity.Parqueadero;
+import org.adn.ceiba.ceibarest.entity.TipoVehiculo;
 
 /**
  * 
@@ -17,24 +21,42 @@ import org.adn.ceiba.ceibarest.entity.Parqueadero;
  *
  */
 public final class ParqueaderoAdapter {
-	
+
 	/**
 	 * Constructor privado de la clase
 	 */
 	private ParqueaderoAdapter () {}
-	
+
 	/**
 	 * metodo que obtiene la instancia de la clase
 	 */
 	public static ParqueaderoAdapter getInstance() {
 		return new ParqueaderoAdapter();
 	}
-	
+
 	/**
 	 * transforma de objeto a entidad
 	 */
 	public Optional<Parqueadero> obtenerEntidad(final ParqueaderoDTO parqueaderoDTO) {
-		
+
+		TipoVehiculo tipoVehiculo = TipoVehiculo.builder().build();
+		Empleado empleado = Empleado.builder().build();
+
+		if (Objects.isNull(parqueaderoDTO)) {
+			return Optional.of(Parqueadero.builder().build());
+		}
+
+		Optional<TipoVehiculo> tipoVehiculoOptional = TipoVehiculoAdapter
+				.getInstance().obtenerEntidad(parqueaderoDTO.getTipoVehiculo());
+
+		if ( tipoVehiculoOptional.isPresent() ) {
+			tipoVehiculo = tipoVehiculoOptional.get();
+		}
+		Optional<Empleado> empleadoOptional = EmpleadoAdapter.getInstance().obtenerEntidad(parqueaderoDTO.getEmpleado());
+		if ( empleadoOptional.isPresent()) {
+			empleado = empleadoOptional.get();
+		}
+
 		Parqueadero parqueadero = Parqueadero.builder()
 				.cilindraje(parqueaderoDTO.getCilindraje())
 				.estado(parqueaderoDTO.getEstado())
@@ -42,42 +64,76 @@ public final class ParqueaderoAdapter {
 				.horaSalida(parqueaderoDTO.getHoraSalida())
 				.nombresPropietario(parqueaderoDTO.getNombresPropietario())
 				.placaVehiculo(parqueaderoDTO.getPlacaVehiculo())
-				.empleado(EmpleadoAdapter.getInstance().obtenerEntidad(parqueaderoDTO.getEmpleado()).get())
-				.tipoVehiculo(TipoVehiculoAdapter.getInstance().obtenerEntidad(parqueaderoDTO.getTipoVehiculo()).get())
+				.empleado(empleado)
+				.tipoVehiculo(tipoVehiculo)
 				.build();
-		
+
 		return Optional.of(parqueadero);
 	}
-	
+
 	/**
 	 * transforma de entidad a objeto
 	 */
-	public Optional<ParqueaderoDTO> obtenerDTO(final Parqueadero parqueadero){
+	public Optional<ParqueaderoDTO> obtenerDTO(final Optional<Parqueadero> parqueadero){
+
+		EmpleadoDTO empleadoDTO = EmpleadoDTO.builder().build();
+		TipoVehiculoDTO tipoVehiculoDTO = TipoVehiculoDTO.builder().build();
+
+		if ( !parqueadero.isPresent())
+			return Optional.of(ParqueaderoDTO.builder().build());
+
+		Optional<EmpleadoDTO> empleadoDTOOptional = EmpleadoAdapter.getInstance().obtenerDTO(parqueadero.get().getEmpleado());
+
+		if ( empleadoDTOOptional.isPresent()) {
+			empleadoDTO = empleadoDTOOptional.get();
+		}
+
+		Optional<TipoVehiculoDTO> tipoVehiculoOptional = TipoVehiculoAdapter.getInstance().obtenerDTO(parqueadero.get().getTipoVehiculo());
+		if ( tipoVehiculoOptional.isPresent() ) {
+			tipoVehiculoDTO = tipoVehiculoOptional.get();
+		}
+
 		ParqueaderoDTO parqueaderoDTO = ParqueaderoDTO.builder()
-				.id(parqueadero.getId())
-				.cilindraje(parqueadero.getCilindraje())
-				.estado(parqueadero.getEstado())
-				.horaIngreso(Objects.isNull(parqueadero.getHoraIngreso()) ? Timestamp.from(Instant.now())  : parqueadero.getHoraIngreso())
-				.horaSalida(parqueadero.getHoraSalida())
-				.nombresPropietario(parqueadero.getNombresPropietario())
-				.placaVehiculo(parqueadero.getPlacaVehiculo())
-				.empleado(EmpleadoAdapter.getInstance().obtenerDTO(parqueadero.getEmpleado()).get())
-				.tipoVehiculo(TipoVehiculoAdapter.getInstance().obtenerDTO(parqueadero.getTipoVehiculo()).get())
+				.id(parqueadero.get().getId())
+				.cilindraje(parqueadero.get().getCilindraje())
+				.estado(parqueadero.get().getEstado())
+				.horaIngreso(Objects.isNull(parqueadero.get().getHoraIngreso()) ? Timestamp.from(Instant.now())  : parqueadero.get().getHoraIngreso())
+				.horaSalida(parqueadero.get().getHoraSalida())
+				.nombresPropietario(parqueadero.get().getNombresPropietario())
+				.placaVehiculo(parqueadero.get().getPlacaVehiculo())
+				.empleado(empleadoDTO)
+				.tipoVehiculo(tipoVehiculoDTO)
 				.build();	
-		
+
 		return Optional.of(parqueaderoDTO);
 	}
-	
+
 	/**
 	 * retorna Lista vehiculos
 	 */
 	public Optional<Collection<ParqueaderoDTO>> getListaParqueaderoDTO(Collection<Parqueadero> listaEntities) {
-		
+
 		if ( Objects.isNull(listaEntities)) 
 			return Optional.of(new ArrayList<ParqueaderoDTO>());
-		
+
+
 		List<ParqueaderoDTO> lista = new ArrayList<ParqueaderoDTO>();
 		listaEntities.forEach(entity -> {
+			
+			EmpleadoDTO empleadoDTO = EmpleadoDTO.builder().build();
+			TipoVehiculoDTO tipoVehiculoDTO = TipoVehiculoDTO.builder().build();
+			
+			Optional<EmpleadoDTO> empleadoDTOOptional = EmpleadoAdapter.getInstance().obtenerDTO(entity.getEmpleado());
+			
+			if ( empleadoDTOOptional.isPresent()) {
+				empleadoDTO = empleadoDTOOptional.get();
+			}
+
+			Optional<TipoVehiculoDTO> tipoVehiculoOptional = TipoVehiculoAdapter.getInstance().obtenerDTO(entity.getTipoVehiculo());
+			if ( tipoVehiculoOptional.isPresent() ) {
+				tipoVehiculoDTO = tipoVehiculoOptional.get();
+			}
+			
 			lista.add(ParqueaderoDTO.builder()
 					.id(entity.getId())
 					.cilindraje(entity.getCilindraje())
@@ -86,8 +142,9 @@ public final class ParqueaderoAdapter {
 					.horaSalida(Objects.isNull(entity.getHoraSalida()) ? Timestamp.from(Instant.now())  : entity.getHoraSalida())
 					.nombresPropietario(entity.getNombresPropietario())
 					.placaVehiculo(entity.getPlacaVehiculo())
-					.empleado(EmpleadoAdapter.getInstance().obtenerDTO(entity.getEmpleado()).get())
-					.tipoVehiculo(TipoVehiculoAdapter.getInstance().obtenerDTO(entity.getTipoVehiculo()).get())
+					.empleado(empleadoDTO)
+					.tipoVehiculo(tipoVehiculoDTO)
+					.pagoCancelado( Objects.isNull(entity.getPagoCancelado()) ? 0 : entity.getPagoCancelado() )
 					.build());
 		});
 

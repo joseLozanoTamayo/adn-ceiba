@@ -1,6 +1,6 @@
 package org.adn.ceiba.ceibarest.service;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.adn.ceiba.ceibarest.entity.TipoVehiculo;
 import org.adn.ceiba.ceibarest.repository.TipoVehiculoRepository;
@@ -22,8 +22,8 @@ public class TipoVehiculoService {
 	/**
 	 * metodo que registra tipo vehiculo
 	 */
-	public List<TipoVehiculo> obtenerTipoVehiculos() {
-		return (List<TipoVehiculo>) tipoVehiculoRepository.findAll();
+	public Collection<TipoVehiculo> obtenerTipoVehiculos() {
+		return (Collection<TipoVehiculo>) tipoVehiculoRepository.findAll();
 	}
 
 }

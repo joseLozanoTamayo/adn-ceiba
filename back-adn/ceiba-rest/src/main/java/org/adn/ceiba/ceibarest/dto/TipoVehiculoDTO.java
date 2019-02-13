@@ -22,6 +22,5 @@ public class TipoVehiculoDTO implements Serializable {
 	private Integer cupo;
 	private String placaBloqueada;
 	private String diasPermitidos;
-	private Long pagoCilindraje;
 }
 

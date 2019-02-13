@@ -1,9 +1,8 @@
 package org.adn.ceiba.ceibarest;
 
 
-import org.adn.ceiba.ceibarest.entity.Book;
-import org.adn.ceiba.ceibarest.entity.Publication;
-import org.adn.ceiba.ceibarest.repository.BookRepository;
+import org.adn.ceiba.ceibarest.entity.TipoVehiculo;
+import org.adn.ceiba.ceibarest.repository.TipoVehiculoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -34,20 +33,12 @@ public class CeibaRestApplication extends SpringBootServletInitializer {
 		SpringApplication.run(CeibaRestApplication.class, args);
 	}
 	
-	@Bean
-	public CommandLineRunner demo (BookRepository repository) {
-		return args -> {
-			// save a couple of customers
-			
-			
-			Publication p = new Book();
-			p.setId(1L);
-			p.setTitle("luis es mi parcero del alma");
-			
-			repository.save( p );
-//			TipoVehiculo v = new Test3();
+//	@Bean
+//	public CommandLineRunner demo (TipoVehiculoRepository repository) {
+//		return args -> {
+//
+//			TipoVehiculo v = new TipoVehiculo();
 //			v.setVehiculo("carro");
-//			
 //			
 //			repository.save(v);
 //
@@ -68,7 +59,7 @@ public class CeibaRestApplication extends SpringBootServletInitializer {
 //			// fetch customers by last name
 //			log.info("Customer found with findByLastName('Bauer'):");
 //			log.info("");
-		};
-	}
+//		};
+//	}
 
 }

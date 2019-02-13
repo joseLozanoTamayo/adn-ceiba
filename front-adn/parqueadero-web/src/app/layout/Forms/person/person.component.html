@@ -1,0 +1,50 @@
+<app-personalTable *ngIf="!selectMode" [(configuracion)]="datos.config" (dataNew)="crear()" (dataSelect)="rowSelect($event)" [hidden]="selectMode"></app-personalTable>
+<div [hidden]="!selectMode" class="content">
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-11">
+            <h1>PROPIETARIO</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <label>Nombre</label>
+            <input [(ngModel)]="datos.nombre" [ngModelOptions]="{standAlone:true}" type="text" required class="form-control">
+        </div>
+        <div class="col-lg-6">
+            <label>Apellido</label>
+            <input [(ngModel)]="datos.apellido" [ngModelOptions]="{standAlone:true}" type="text" required class="form-control">
+        </div>
+        <div class="col-lg-6">
+            <label>Cedula</label>
+            <input [(ngModel)]="datos.cedula" [ngModelOptions]="{standAlone:true}" type="number" required class="form-control">
+        </div>
+        <div class="col-lg-3">
+            <label>Celular</label>
+            <input [(ngModel)]="datos.celular" [ngModelOptions]="{standAlone:true}" type="number" required class="form-control">
+        </div>
+        <div class="col-lg-3">
+            <label>sexo</label>
+            <select [(ngModel)]="datos.sexo" [ngModelOptions]="{standAlone:true}" class="form-control">
+                <option>Femenino</option>
+                <option>Masculino</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <label>Pais </label>
+            <select [(ngModel)]="datos.pais" [ngModelOptions]="{standAlone:true}" class="form-control">
+                <option>Colombia</option>
+            </select>
+        </div>
+
+    </div>
+    <div class="spacer"></div>
+    <div class="row">
+            <div class="col-lg-9"></div>
+            <div class="col-lg-1">
+                <button (click)="guardar()" type="button" class="btn btn-lg btn-primary">Guardar</button>
+            </div>
+    </div>
+</div>

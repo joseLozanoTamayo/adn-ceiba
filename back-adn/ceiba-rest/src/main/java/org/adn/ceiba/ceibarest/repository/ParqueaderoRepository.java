@@ -1,5 +1,7 @@
 package org.adn.ceiba.ceibarest.repository;
 
+import java.util.Optional;
+
 import org.adn.ceiba.ceibarest.entity.Parqueadero;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -16,6 +18,6 @@ public interface ParqueaderoRepository extends CrudRepository<Parqueadero, Integ
 	
 	@Query(value = "select count(id) from parqueadero where estado = :estado " 
 			+ "and fk_tipo_vehiculo = :tipoVehiculo ", nativeQuery = true)
-	public int obtenerCupoParqueadero(@Param("estado") String estado, @Param("tipoVehiculo") Integer tipoVehiculo);
+	public Optional<Integer> obtenerCupoParqueadero(@Param("estado") String estado, @Param("tipoVehiculo") Integer tipoVehiculo);
 
 }

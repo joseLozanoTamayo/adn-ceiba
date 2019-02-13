@@ -1,0 +1,40 @@
+<div class="row">
+	<div class="col-lg-6">
+		<button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="crear()">Nuevo</button>
+	</div>
+	<div class="col-lg-6">
+		<h1>{{configuracion.titulo}}</h1>
+	</div>
+</div>
+<mat-form-field *ngIf="view">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6">
+				<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+			</div>
+			<div class="col-sm-6"></div>
+		</div>
+	</div>
+</mat-form-field>
+
+<div *ngIf="view" class="mat-elevation-z2">
+	<table mat-table [dataSource]="dataSource" matSort>
+		<span *ngFor="let item of displayedColumns">
+			<ng-container *ngIf="item!='eliminar'" matColumnDef="{{item}}">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> {{item}} </th>
+				<td mat-cell *matCellDef="let row"> {{row[item]}} </td>
+			</ng-container>
+		</span>
+		<ng-container matColumnDef="eliminar">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header> ELIMINAR </th>
+			<td mat-cell *matCellDef="let row">
+				<button mat-icon-button color="primary" (click)="delete(row)">
+					<mat-icon aria-label="Example icon-button with a heart icon">E</mat-icon>
+				</button>
+			</td>
+		</ng-container>
+		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="seleccioneItem(row)"></tr>
+	</table>
+	<mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>

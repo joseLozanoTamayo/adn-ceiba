@@ -1,0 +1,45 @@
+<app-parqueaderoTable *ngIf="!selectMode" [(configuracion)]="datos.config" (dataNew)="crear()" (dataSelect)="rowSelect($event)" [hidden]="selectMode"></app-parqueaderoTable>
+<div [hidden]="!selectMode" class="content">
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-11">
+            <h1>PARQUEADERO</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <label>Nombre Completo</label>
+            <input [(ngModel)]="datos.nombresPropietario" [ngModelOptions]="{standAlone:true}" type="text" required class="form-control">
+        </div>
+        <div class="col-lg-6">
+            <label>Placa Vehiculo</label>
+            <input [(ngModel)]="datos.placaVehiculo" [ngModelOptions]="{standAlone:true}" type="text" required class="form-control">
+        </div>
+        <div class="col-lg-6">
+            <label>Cilindraje</label>
+            <input [(ngModel)]="datos.cilindraje" [ngModelOptions]="{standAlone:true}" type="number" required class="form-control">
+        </div>
+        <div class="col-lg-6">
+            <label>Tipo Vehiculo</label>
+            <select [(ngModel)]="datos.tipoVehiculo" [ngModelOptions]="{standAlone:true}" class="form-control">
+                <option *ngFor="let vehiculo of tipoVehiculo" [ngValue]="vehiculo">
+                    {{vehiculo.vehiculo}}
+                </option>
+            </select>
+        </div>
+        <div class="col-lg-6">
+                <label>Valor a pagar</label>
+                <input [(ngModel)]="datos.pagoTotal" [ngModelOptions]="{standAlone:true}" type="number" required class="form-control" [disabled]="true">
+        </div>
+    
+        <div class="col-lg-12">
+        </div>
+        
+    </div>
+    <div class="row" style="align-self: center;">
+        <div class="col-lg-5"></div>
+        <div class="col-lg-1">
+            <button (click)="guardar()" type="button" class="btn btn-lg btn-primary">Guardar</button>
+        </div>
+    </div>
+</div>
