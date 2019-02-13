@@ -155,7 +155,7 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 			return Boolean.TRUE;
 
 		if (!parqueaderoDTO.getTipoVehiculo()
-				.getDiasPermitidos().contains(ConstantesParqueadero.DIA_SEMANA()))
+				.getDiasPermitidos().contains(ConstantesParqueadero.diaSemana()))
 			return Boolean.FALSE;
 
 		return Boolean.TRUE;
