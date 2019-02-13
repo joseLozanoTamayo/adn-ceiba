@@ -1,6 +1,7 @@
 package org.adn.ceiba.ceibarest.controller.impl;
 
 import org.adn.ceiba.ceibarest.bussines.impl.ParqueaderoBussines;
+import org.adn.ceiba.ceibarest.utils.ParqueaderoConstante;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,14 +27,11 @@ public class ParqueaderoControllerTest {
 	@Autowired
     private MockMvc mockMvc;
 	
-	@Autowired
-	Environment env;
-	
 	@Test
-	public void testHelloEndpointIsOK() throws Exception {
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("http://localhost:8082/tipovehiculo/ping");
+	public void pingEndpointIsOK() throws Exception {
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
+				.get(ParqueaderoConstante.URL_CONTROLLER + ParqueaderoConstante.REST_GET_URL);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		Assert.assertEquals(200, result.getResponse().getStatus());
-//		assertTrue(result.getResponse().getContentAsString().split("placa").length - 1 >= 2);
 	}
 }

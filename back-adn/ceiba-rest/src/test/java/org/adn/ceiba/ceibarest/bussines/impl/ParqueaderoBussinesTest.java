@@ -9,7 +9,6 @@ import java.util.Optional;
 
 import org.adn.ceiba.ceibarest.dto.ParqueaderoDTO;
 import org.adn.ceiba.ceibarest.entity.Parqueadero;
-import org.adn.ceiba.ceibarest.exception.ParqueaderoException;
 import org.adn.ceiba.ceibarest.service.ParqueaderoService;
 import org.adn.ceiba.ceibarest.service.TarifaService;
 import org.adn.ceiba.ceibarest.utils.ParqueaderoConstante;
