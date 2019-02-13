@@ -64,7 +64,7 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 
 		Optional<Parqueadero> entidad = ParqueaderoAdapter.getInstance().obtenerEntidad(parqueaderoDTO);
 
-		Parqueadero response = null;
+		Parqueadero response = Parqueadero.builder().build();
 		if (entidad.isPresent())
 			response  = parqueaderoService.crear(entidad.get());
 

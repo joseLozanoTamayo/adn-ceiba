@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.adn.ceiba.ceibarest.dto.ParqueaderoDTO;
 import org.adn.ceiba.ceibarest.entity.Parqueadero;
@@ -111,7 +112,7 @@ public final class ParqueaderoBussinesTest {
 	/**
 	 * 
 	 */
-	@Test // (expected = )
+	@Test
 	public void verifyObtenerParqueadero() {
 		
 		when(parqueaderoService.obtenerParqueadero(Mockito.anyInt())).thenReturn(ParqueaderoConstante.PARQUEADERO_MOTO);
@@ -227,5 +228,41 @@ public final class ParqueaderoBussinesTest {
 		Assert.assertTrue(response.getPagoCancelado().compareTo( ParqueaderoConstante.PAGO_CANCELAR_DIA_CARRO) == 0);
 		
 	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	public void verifyPlacaNoExisteVehiculoParqueadero() {
+		
+		ParqueaderoConstante.PARQUEADERO_CARRO.get().setCilindraje(0L);
+		ParqueaderoConstante.PARQUEADERO_CARRO.get().setPagoCancelado(0L);
+		ParqueaderoConstante.PARQUEADERO_CARRO.get().getTipoVehiculo().setPlacaBloqueada("");
 
+		when(parqueaderoService.obtenerCupoParqueadero(Mockito.anyString(), Mockito.anyInt())).thenReturn(Optional.of(0));
+		when(parqueaderoService.crear(Mockito.anyObject())).thenReturn(ParqueaderoConstante.PARQUEADERO_CARRO.get());
+		
+		ParqueaderoDTO response = parqueaderoBussines.crear(ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get());
+		
+		Assert.assertNotNull("Id objeto Vacio", ((ParqueaderoDTO)response).getId());
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	public void verifyPlacaNoExisteMoto() {
+
+		ParqueaderoConstante.PARQUEADERO_MOTO.get().setCilindraje(400L);
+		ParqueaderoConstante.PARQUEADERO_MOTO.get().setPagoCancelado(0L);
+		ParqueaderoConstante.PARQUEADERO_MOTO.get().getTipoVehiculo().setPlacaBloqueada("");
+
+		when(parqueaderoService.obtenerCupoParqueadero(Mockito.anyString(), Mockito.anyInt())).thenReturn(Optional.of(0));
+		when(parqueaderoService.crear(Mockito.anyObject())).thenReturn(ParqueaderoConstante.PARQUEADERO_MOTO.get());
+
+		ParqueaderoDTO response = parqueaderoBussines.crear(ParqueaderoConstante.PARQUEADERO_DTO_MOTO.get());
+
+		Assert.assertNotNull("Id objeto Vacio", ((ParqueaderoDTO)response).getId());
+	}
+	
 }

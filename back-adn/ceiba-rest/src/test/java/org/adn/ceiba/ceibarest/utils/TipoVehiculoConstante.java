@@ -3,6 +3,7 @@ package org.adn.ceiba.ceibarest.utils;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.adn.ceiba.ceibarest.dto.TipoVehiculoDTO;
 import org.adn.ceiba.ceibarest.entity.TipoVehiculo;
 
 /**
@@ -16,8 +17,9 @@ public final class TipoVehiculoConstante {
 	public static final String VEHICULO = "AUTOMOVIL";
 	public static final String CODIGO_MOTO = "M1";
 	public static final String CODIGO_CARRO = "C1";
-	public static final Integer CUPO = 20;
-	public static final String DIAS_PERMITIDOS = "LU-DO";	
+	public static final Integer CUPO_MOTO = 20;
+	public static final Integer CUPO_CARRO = 20;
+	public static final String DIAS_PERMITIDOS = "LU-MI";	
 	public static final String PLACA_BLOQUEADA = "A";	
 	
 	public static final Collection<TipoVehiculo> TIPO_VEHICULO_LISTA_NULL = null;
@@ -27,6 +29,7 @@ public final class TipoVehiculoConstante {
 	public static final TipoVehiculo TIPO_VEHICULO_MOTO = TipoVehiculo.builder()
 			.id(ID)
 			.vehiculo(VEHICULO)
+			.placaBloqueada(PLACA_BLOQUEADA)
 			.codigo(CODIGO_MOTO)
 			.build();
 	
@@ -34,6 +37,25 @@ public final class TipoVehiculoConstante {
 			.id(ID)
 			.vehiculo(VEHICULO)
 			.codigo(CODIGO_CARRO)
+			.placaBloqueada(PLACA_BLOQUEADA)
+			.build();
+	
+	public static final TipoVehiculoDTO TIPO_VEHICULO_DTO_CARRO = TipoVehiculoDTO.builder()
+			.id(ID)
+			.vehiculo(VEHICULO)
+			.codigo(CODIGO_CARRO)
+			.placaBloqueada(PLACA_BLOQUEADA)
+			.cupo(CUPO_CARRO)
+			.diasPermitidos(DIAS_PERMITIDOS)
+			.build();
+	
+	public static final TipoVehiculoDTO TIPO_VEHICULO_DTO_MOTO = TipoVehiculoDTO.builder()
+			.id(ID)
+			.vehiculo(VEHICULO)
+			.codigo(CODIGO_MOTO)
+			.placaBloqueada(PLACA_BLOQUEADA)
+			.cupo(CUPO_MOTO)
+			.diasPermitidos(DIAS_PERMITIDOS)
 			.build();
 	
 	/**
@@ -46,7 +68,7 @@ public final class TipoVehiculoConstante {
 		TipoVehiculo tipoVehiculo =  TipoVehiculo.builder()
 				.id(ID)
 				.codigo(CODIGO_MOTO)
-				.cupo(CUPO)
+				.cupo(CUPO_MOTO)
 				.diasPermitidos(DIAS_PERMITIDOS)
 				.placaBloqueada(PLACA_BLOQUEADA)
 				.vehiculo(VEHICULO)
