@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.adn.ceiba.ceibarest.dto.ParqueaderoDTO;
 import org.adn.ceiba.ceibarest.entity.Parqueadero;
+import org.adn.ceiba.ceibarest.exception.ParqueaderoException;
 import org.adn.ceiba.ceibarest.service.ParqueaderoService;
 import org.adn.ceiba.ceibarest.service.TarifaService;
 import org.adn.ceiba.ceibarest.utils.ParqueaderoConstante;
@@ -233,15 +234,15 @@ public final class ParqueaderoBussinesTest {
 	 * 
 	 */
 	@Test
-	public void verifyPlacaNoExisteVehiculoParqueadero() {
+	public void verifyPlacaNoExisteCarroNoBloqueada() {
 		
 		ParqueaderoConstante.PARQUEADERO_CARRO.get().setCilindraje(0L);
 		ParqueaderoConstante.PARQUEADERO_CARRO.get().setPagoCancelado(0L);
-		ParqueaderoConstante.PARQUEADERO_CARRO.get().getTipoVehiculo().setPlacaBloqueada("");
 
 		when(parqueaderoService.obtenerCupoParqueadero(Mockito.anyString(), Mockito.anyInt())).thenReturn(Optional.of(0));
 		when(parqueaderoService.crear(Mockito.anyObject())).thenReturn(ParqueaderoConstante.PARQUEADERO_CARRO.get());
 		
+		ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get().getTipoVehiculo().setDiasPermitidos("LU-MA-MI-JU-VI-SA-DO");
 		ParqueaderoDTO response = parqueaderoBussines.crear(ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get());
 		
 		Assert.assertNotNull("Id objeto Vacio", ((ParqueaderoDTO)response).getId());
@@ -251,18 +252,19 @@ public final class ParqueaderoBussinesTest {
 	 * 
 	 */
 	@Test
-	public void verifyPlacaNoExisteMoto() {
+	public void verifyPlacaNoExisteMotoNobloqueo() {
 
 		ParqueaderoConstante.PARQUEADERO_MOTO.get().setCilindraje(400L);
 		ParqueaderoConstante.PARQUEADERO_MOTO.get().setPagoCancelado(0L);
-		ParqueaderoConstante.PARQUEADERO_MOTO.get().getTipoVehiculo().setPlacaBloqueada("");
 
 		when(parqueaderoService.obtenerCupoParqueadero(Mockito.anyString(), Mockito.anyInt())).thenReturn(Optional.of(0));
 		when(parqueaderoService.crear(Mockito.anyObject())).thenReturn(ParqueaderoConstante.PARQUEADERO_MOTO.get());
 
+		ParqueaderoConstante.PARQUEADERO_DTO_MOTO.get().getTipoVehiculo().setDiasPermitidos("LU-MA-MI-JU-VI-SA-DO");
 		ParqueaderoDTO response = parqueaderoBussines.crear(ParqueaderoConstante.PARQUEADERO_DTO_MOTO.get());
 
 		Assert.assertNotNull("Id objeto Vacio", ((ParqueaderoDTO)response).getId());
 	}
 	
+
 }
