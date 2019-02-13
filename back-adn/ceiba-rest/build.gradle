@@ -26,8 +26,9 @@ apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: "org.sonarqube"
-apply plugin: "war"
-apply plugin: "io.franzbecker.gradle-lombok"
+apply plugin: 'war'
+apply plugin: 'io.franzbecker.gradle-lombok'
+apply plugin: 'jacoco'
 
 group = 'org.adn.ceiba'
 version = '0.0.1-SNAPSHOT'

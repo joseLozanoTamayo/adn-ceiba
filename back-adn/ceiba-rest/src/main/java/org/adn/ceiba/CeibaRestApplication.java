@@ -1,4 +1,4 @@
-package org.adn.ceiba.ceibarest;
+package org.adn.ceiba;
 
 
 import org.springframework.boot.SpringApplication;
