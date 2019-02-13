@@ -1,16 +1,11 @@
 package org.adn.ceiba.ceibarest.exception;
 
-import lombok.Data;
-
 /**
  * Clase que administra las excepciones logicas que puedan suceder
  * 
  * The Class CreditoDigitalException.
  */
-@Data
 public class ParqueaderoException extends RuntimeException {
-
-	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -2490976302110629726L;
 	
 	/** The detail error. */
@@ -30,6 +25,14 @@ public class ParqueaderoException extends RuntimeException {
 	 */
 	public ParqueaderoException (DetailError detalleError) {
 		super("Esto es un error controlado");
+		this.detalleError = detalleError;
+	}
+
+	public DetailError getDetalleError() {
+		return detalleError;
+	}
+
+	public void setDetalleError(DetailError detalleError) {
 		this.detalleError = detalleError;
 	}
 }
