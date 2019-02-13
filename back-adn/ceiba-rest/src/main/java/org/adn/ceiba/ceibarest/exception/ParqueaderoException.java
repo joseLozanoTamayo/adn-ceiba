@@ -8,8 +8,7 @@ package org.adn.ceiba.ceibarest.exception;
 public class ParqueaderoException extends RuntimeException {
 	private static final long serialVersionUID = -2490976302110629726L;
 	
-	/** The detail error. */
-	private DetailError detalleError;
+	private final DetailError detalleError;
 
 	/**
 	 * Instantiates a new credito digital exception.
@@ -25,7 +24,4 @@ public class ParqueaderoException extends RuntimeException {
 		return detalleError;
 	}
 
-	public void setDetalleError(DetailError detalleError) {
-		this.detalleError = detalleError;
-	}
 }
