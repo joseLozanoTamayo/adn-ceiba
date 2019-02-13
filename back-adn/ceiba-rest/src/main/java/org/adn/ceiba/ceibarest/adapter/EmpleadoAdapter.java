@@ -1,6 +1,5 @@
 package org.adn.ceiba.ceibarest.adapter;
 
-import java.util.Objects;
 import java.util.Optional;
 
 import org.adn.ceiba.ceibarest.dto.EmpleadoDTO;
@@ -29,11 +28,6 @@ public final class EmpleadoAdapter {
 	 * transforma de objeto a entidad
 	 */
 	public Optional<Empleado> obtenerEntidad(final EmpleadoDTO empleadoDTO) {
-		
-		if (Objects.isNull(empleadoDTO)) {
-			return Optional.of(Empleado.builder().build());
-		}
-
 		return Optional.of(Empleado.builder()
 				.id(empleadoDTO.getId())
 				.nombres(empleadoDTO.getNombres())
