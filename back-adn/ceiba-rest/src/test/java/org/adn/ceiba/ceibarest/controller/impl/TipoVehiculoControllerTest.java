@@ -46,12 +46,8 @@ public class TipoVehiculoControllerTest {
 		MvcResult response = mockMvc.perform(MockMvcRequestBuilders.get("/tipovehiculo/ping")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
-				//		.andExpect(content().string("Respuesta Exitosa"))
 				.andDo(print())
 				.andReturn();
-
-		System.out.println("RESPONSE : " + response.getResponse().getContentAsString());
-
 	}
 
 	/**

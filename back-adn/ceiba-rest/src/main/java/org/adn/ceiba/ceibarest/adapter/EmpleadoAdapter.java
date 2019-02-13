@@ -1,7 +1,5 @@
 package org.adn.ceiba.ceibarest.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -36,45 +34,24 @@ public final class EmpleadoAdapter {
 			return Optional.of(Empleado.builder().build());
 		}
 
-		Empleado empleado = Empleado.builder()
+		return Optional.of(Empleado.builder()
 				.id(empleadoDTO.getId())
 				.nombres(empleadoDTO.getNombres())
 				.apellidos(empleadoDTO.getApellidos())
 				.cargo(empleadoDTO.getCargo())
-				.build();
-
-		return Optional.of(empleado);
+				.build());
 	}
 
 	/**
 	 * transforma de entidad a objeto
 	 */
 	public Optional<EmpleadoDTO> obtenerDTO(final Empleado empleado){
-		EmpleadoDTO empleadoDTO = EmpleadoDTO.builder()
+		return Optional.of(EmpleadoDTO.builder()
 				.id(empleado.getId())
 				.nombres(empleado.getNombres())
 				.apellidos(empleado.getApellidos())
 				.cargo(empleado.getCargo())
-				.build();
-		return Optional.of(empleadoDTO);
-	}
-
-	/**
-	 * retorna Lista vehiculos
-	 */
-	public Optional<List<EmpleadoDTO>> getListaVehiculoDTO(List<Empleado> listaEntities) {
-
-		if ( Objects.isNull(listaEntities)) 
-			return Optional.of(new ArrayList<EmpleadoDTO>());
-
-		List<EmpleadoDTO> lista = new ArrayList<>();
-		listaEntities.forEach(entity -> {
-			lista.add(EmpleadoDTO.builder()
-					.id(entity.getId())
-					.build());
-		});
-
-		return Optional.of( lista );
+				.build());
 	}
 
 }

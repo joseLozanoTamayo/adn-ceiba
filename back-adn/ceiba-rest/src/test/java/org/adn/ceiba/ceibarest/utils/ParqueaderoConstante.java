@@ -44,6 +44,10 @@ public class ParqueaderoConstante {
 	
 	public static final Collection<Parqueadero> PARQUEADERO_NULL = null;
 	
+	public static final String URL_CONTROLLER = "http://localhost:8082/";
+	
+	public static final String REST_GET_URL = "tipovehiculo/ping";
+	
 	public static final Optional<Parqueadero> PARQUEADERO_MOTO = Optional.of(Parqueadero.builder()
 			.id(ID)
 			.cilindraje(CILINDRAJE)
