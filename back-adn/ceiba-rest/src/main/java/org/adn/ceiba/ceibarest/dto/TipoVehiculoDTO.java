@@ -2,11 +2,8 @@ package org.adn.ceiba.ceibarest.dto;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Builder
