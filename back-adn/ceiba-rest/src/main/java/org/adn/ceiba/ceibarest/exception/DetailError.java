@@ -1,9 +1,5 @@
 package org.adn.ceiba.ceibarest.exception;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -11,9 +7,6 @@ import lombok.NoArgsConstructor;
 /**
  * The Class DetailError.
  *
- * @author <a href="tecnico_integracion5@utayecisa.com"> Guillermo García</a> Creation date 24/05/2018
- * @since 1.0
- * @version 1.0 
  */
 @Builder
 @NoArgsConstructor
@@ -35,9 +28,6 @@ public class DetailError {
 	/** The developer message. */
 	private String developerMessage;
 			
-	/** The errors. */
-	private Map<String, List<ValidationError>> errors = new HashMap<>();
-
 	public String getTitle() {
 		return title;
 	}
@@ -78,15 +68,4 @@ public class DetailError {
 		this.developerMessage = developerMessage;
 	}
 
-	public Map<String, List<ValidationError>> getErrors() {
-		return errors;
-	}
-
-	public void setErrors(Map<String, List<ValidationError>> errors) {
-		this.errors = errors;
-	}
-	
-	
-	
-		
 }
