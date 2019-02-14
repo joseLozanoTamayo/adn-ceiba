@@ -37,14 +37,10 @@ public final class ParqueaderoAdapter {
 	/**
 	 * transforma de objeto a entidad
 	 */
-	public Optional<Parqueadero> obtenerEntidad(final ParqueaderoDTO parqueaderoDTO) {
+	public Optional<Parqueadero> obtenerEntidad(ParqueaderoDTO parqueaderoDTO) {
 
 		TipoVehiculo tipoVehiculo = TipoVehiculo.builder().build();
 		Empleado empleado = Empleado.builder().build();
-
-		if (Objects.isNull(parqueaderoDTO)) {
-			return Optional.of(Parqueadero.builder().build());
-		}
 
 		Optional<TipoVehiculo> tipoVehiculoOptional = TipoVehiculoAdapter
 				.getInstance().obtenerEntidad(parqueaderoDTO.getTipoVehiculo());
@@ -79,9 +75,10 @@ public final class ParqueaderoAdapter {
 		EmpleadoDTO empleadoDTO = EmpleadoDTO.builder().build();
 		TipoVehiculoDTO tipoVehiculoDTO = TipoVehiculoDTO.builder().build();
 
-		if ( !parqueadero.isPresent())
+		if ( !parqueadero.isPresent()) {
 			return Optional.of(ParqueaderoDTO.builder().build());
-
+		}
+		
 		Optional<EmpleadoDTO> empleadoDTOOptional = EmpleadoAdapter.getInstance().obtenerDTO(parqueadero.get().getEmpleado());
 
 		if ( empleadoDTOOptional.isPresent()) {
@@ -93,7 +90,8 @@ public final class ParqueaderoAdapter {
 			tipoVehiculoDTO = tipoVehiculoOptional.get();
 		}
 
-		ParqueaderoDTO parqueaderoDTO = ParqueaderoDTO.builder()
+
+		return Optional.of(ParqueaderoDTO.builder()
 				.id(parqueadero.get().getId())
 				.cilindraje(parqueadero.get().getCilindraje())
 				.estado(parqueadero.get().getEstado())
@@ -103,9 +101,7 @@ public final class ParqueaderoAdapter {
 				.placaVehiculo(parqueadero.get().getPlacaVehiculo())
 				.empleado(empleadoDTO)
 				.tipoVehiculo(tipoVehiculoDTO)
-				.build();	
-
-		return Optional.of(parqueaderoDTO);
+				.build());
 	}
 
 	/**
