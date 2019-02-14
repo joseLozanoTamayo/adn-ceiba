@@ -162,7 +162,7 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	private void existeCupoParqueadero(ParqueaderoDTO parqueaderoDTO) {
 		Optional<Integer> cupoVehiculo = parqueaderoService
 				.obtenerCupoParqueadero(ConstantesParqueadero.ASIGNADO, parqueaderoDTO.getTipoVehiculo().getId());
-		if (cupoVehiculo.get() >= parqueaderoDTO.getTipoVehiculo().getCupo()) {
+		if ( cupoVehiculo.isPresent() && cupoVehiculo.get() >= parqueaderoDTO.getTipoVehiculo().getCupo()) {
 			throw new ParqueaderoException(DetailError.builder()
 					.detail("Cupo de parqueadero lleno")
 					.title("Parqueadero lleno")

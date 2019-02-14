@@ -1,5 +1,7 @@
 package org.adn.ceiba.ceibarest.exception;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -11,7 +13,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DetailError {
+public class DetailError implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	/** The title. */
 	private String title;
