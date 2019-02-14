@@ -66,8 +66,10 @@ public final class ParqueaderoAdapter {
 	 */
 	public Optional<ParqueaderoDTO> obtenerDTO(final Optional<Parqueadero> parqueadero){
 
-		Optional<EmpleadoDTO> empleadoDTOOptional = EmpleadoAdapter.getInstance().obtenerDTO(parqueadero.get().getEmpleado());
-		Optional<TipoVehiculoDTO> tipoVehiculoOptional = TipoVehiculoAdapter.getInstance().obtenerDTO(parqueadero.get().getTipoVehiculo());
+		Optional<EmpleadoDTO> empleadoDTOOptional = EmpleadoAdapter
+				.getInstance().obtenerDTO(parqueadero.orElse(Parqueadero.builder().build()).getEmpleado());
+		Optional<TipoVehiculoDTO> tipoVehiculoOptional = TipoVehiculoAdapter
+				.getInstance().obtenerDTO(parqueadero.orElse(Parqueadero.builder().build()).getTipoVehiculo());
 
 		return Optional.of(ParqueaderoDTO.builder()
 				.id(parqueadero.get().getId())
