@@ -263,7 +263,7 @@ public final class ParqueaderoBussinesTest {
 		ParqueaderoConstante.PARQUEADERO_DTO_MOTO.get().getTipoVehiculo().setDiasPermitidos("LU-MA-MI-JU-VI-SA-DO");
 		ParqueaderoDTO response = parqueaderoBussines.crear(ParqueaderoConstante.PARQUEADERO_DTO_MOTO.get());
 
-		Assert.assertNotNull("Id objeto Vacio", ((ParqueaderoDTO)response).getId());
+		Assert.assertNotNull("Id objeto Vacio", response.getId());
 	}
 	
 	/**
@@ -294,6 +294,30 @@ public final class ParqueaderoBussinesTest {
 		Assert.assertNotNull(response);
 		Assert.assertNotNull(response.getId());
 		
+	}
+	
+	/**
+	 * 
+	 */
+	@Test(expected = ParqueaderoException.class)
+	public void verifyPlacaException() {
+		
+		ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get().getTipoVehiculo().setDiasPermitidos("");
+		when(parqueaderoService.obtenerCupoParqueadero(Mockito.anyString(), Mockito.anyInt())).thenReturn(Optional.of(5));
+		
+		Assert.assertNotNull(parqueaderoBussines.crear(ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get()));
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	public void verifyRegistrarpago() {
+		
+		when(parqueaderoService.crear(Mockito.any())).thenReturn(ParqueaderoConstante.PARQUEADERO_CARRO.get());
+		ParqueaderoDTO response = parqueaderoBussines.registrarPago(ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get());
+		
+		Assert.assertNotNull("Id objeto Vacio", response.getId());
 	}
 	
 
