@@ -91,7 +91,7 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 		}
 		
 		Optional<ParqueaderoDTO> parqueaderoOptional = ParqueaderoAdapter.getInstance().obtenerDTO(entity);
-		ParqueaderoDTO parqueadero = parqueaderoOptional.get();
+		ParqueaderoDTO parqueadero = parqueaderoOptional.orElse(ParqueaderoDTO.builder().build());
 		
 		Optional< Tarifa > tarifaOptional = tarifaService.findByCodigoTipoVehiculo(
 				parqueadero.getTipoVehiculo().getCodigo());
