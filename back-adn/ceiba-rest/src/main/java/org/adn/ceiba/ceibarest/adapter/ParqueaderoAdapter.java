@@ -74,10 +74,6 @@ public final class ParqueaderoAdapter {
 
 		EmpleadoDTO empleadoDTO = EmpleadoDTO.builder().build();
 		TipoVehiculoDTO tipoVehiculoDTO = TipoVehiculoDTO.builder().build();
-
-		if ( !parqueadero.isPresent()) {
-			return Optional.of(ParqueaderoDTO.builder().build());
-		}
 		
 		Optional<EmpleadoDTO> empleadoDTOOptional = EmpleadoAdapter.getInstance().obtenerDTO(parqueadero.get().getEmpleado());
 
