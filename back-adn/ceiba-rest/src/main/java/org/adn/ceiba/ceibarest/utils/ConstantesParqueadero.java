@@ -8,15 +8,15 @@ public final class ConstantesParqueadero {
 	
 	private ConstantesParqueadero() {}
 
-	public static String ASIGNADO = "ASIGNADO";
+	public static final String ASIGNADO = "ASIGNADO";
 	
-	public static Integer DIA_HORAS = 24;
+	public static final Integer DIA_HORAS = 24;
 	
-	public static Long CERO = 0L;
+	public static final Long CERO = 0L;
 	
-	public static Long UNO = 1L;
+	public static final Long UNO = 1L;
 
-	public static String DIA_SEMANA(){
+	public static final String diaSemana(){
 		
 		String[] dias={"DO","LU","MA", "MI","JU","VI","SA"};
 		Date hoy = new Date();

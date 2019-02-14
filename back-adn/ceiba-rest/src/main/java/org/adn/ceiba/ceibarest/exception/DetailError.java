@@ -1,22 +1,13 @@
 package org.adn.ceiba.ceibarest.exception;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
  * The Class DetailError.
  *
- * @author <a href="tecnico_integracion5@utayecisa.com"> Guillermo García</a> Creation date 24/05/2018
- * @since 1.0
- * @version 1.0 
  */
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,7 +28,44 @@ public class DetailError {
 	/** The developer message. */
 	private String developerMessage;
 			
-	/** The errors. */
-	private Map<String, List<ValidationError>> errors = new HashMap<String, List<ValidationError>>();
-		
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
+
+	public Long getTimeStamp() {
+		return timeStamp;
+	}
+
+	public void setTimeStamp(Long timeStamp) {
+		this.timeStamp = timeStamp;
+	}
+
+	public String getDeveloperMessage() {
+		return developerMessage;
+	}
+
+	public void setDeveloperMessage(String developerMessage) {
+		this.developerMessage = developerMessage;
+	}
+
 }

@@ -44,6 +44,10 @@ public class ParqueaderoConstante {
 	
 	public static final Collection<Parqueadero> PARQUEADERO_NULL = null;
 	
+	public static final String URL_CONTROLLER = "http://localhost:8082/";
+	
+	public static final String REST_GET_URL = "tipovehiculo/ping";
+	
 	public static final Optional<Parqueadero> PARQUEADERO_MOTO = Optional.of(Parqueadero.builder()
 			.id(ID)
 			.cilindraje(CILINDRAJE)
@@ -80,6 +84,8 @@ public class ParqueaderoConstante {
 			.horaSalida(HORA_SALIDA)
 			.pagoCancelado(PAGO_CANCELADO)
 			.pagoCancelado(PAGO_CANCELADO)
+			.tipoVehiculo(TipoVehiculoConstante.TIPO_VEHICULO_DTO_MOTO)
+			.empleado(EmpleadoConstante.EMPLEADO_DTO.get())
 			.build());
 	
 	public static final Optional<ParqueaderoDTO> PARQUEADERO_DTO_CARRO = Optional.of(ParqueaderoDTO.builder()
@@ -92,6 +98,8 @@ public class ParqueaderoConstante {
 			.horaSalida(HORA_SALIDA)
 			.pagoCancelado(PAGO_CANCELADO)
 			.pagoCancelado(PAGO_CANCELADO)
+			.tipoVehiculo(TipoVehiculoConstante.TIPO_VEHICULO_DTO_CARRO)
+			.empleado(EmpleadoConstante.EMPLEADO_DTO.get())
 			.build());
 	
 	public static final Collection<Parqueadero> obtenerListaParqueadero() {

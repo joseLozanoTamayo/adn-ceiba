@@ -2,6 +2,7 @@ package org.adn.ceiba.ceibarest.utils;
 
 import java.util.Optional;
 
+import org.adn.ceiba.ceibarest.dto.EmpleadoDTO;
 import org.adn.ceiba.ceibarest.entity.Empleado;
 
 /**
@@ -22,6 +23,13 @@ public final class EmpleadoConstante {
 	private EmpleadoConstante() {}
 	
 	public static final Optional<Empleado> EMPLEADO = Optional.of( Empleado.builder()
+			.id(ID)
+			.nombres(NOMBRES)
+			.apellidos(APELLIDOS)
+			.cargo(CARGO)
+			.build());
+	
+	public static final Optional<EmpleadoDTO> EMPLEADO_DTO = Optional.of( EmpleadoDTO.builder()
 			.id(ID)
 			.nombres(NOMBRES)
 			.apellidos(APELLIDOS)

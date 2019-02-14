@@ -3,6 +3,7 @@ package org.adn.ceiba.ceibarest.bussines.impl;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
@@ -43,27 +44,12 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	@Override
 	public ParqueaderoDTO crear(ParqueaderoDTO parqueaderoDTO) {
 
-		if(!existeCupoParqueadero(parqueaderoDTO)) {
-			DetailError detailError = DetailError.builder()
-					.detail("Cupo de parqueadero lleno")
-					.title("Parqueadero lleno")
-					.timeStamp(Instant.now().getEpochSecond())
-					.build();
-			throw new ParqueaderoException(detailError);
-		}
-
-		if (!verificarIngresoPlaca(parqueaderoDTO)){
-			DetailError detailError = DetailError.builder()
-					.detail("Placa Inabilitada para parquear")
-					.title("Placa Inabilitada para parquear")
-					.timeStamp(Instant.now().getEpochSecond())
-					.build();
-			throw new ParqueaderoException(detailError);
-		}
+		existeCupoParqueadero(parqueaderoDTO);
+		verificarIngresoPlaca(parqueaderoDTO);
 
 		Optional<Parqueadero> entidad = ParqueaderoAdapter.getInstance().obtenerEntidad(parqueaderoDTO);
 
-		Parqueadero response = null;
+		Parqueadero response = Parqueadero.builder().build();
 		if (entidad.isPresent())
 			response  = parqueaderoService.crear(entidad.get());
 
@@ -81,9 +67,11 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	@Override
 	public Collection<ParqueaderoDTO> obtenerListaParqueadero() {
 		Collection<Parqueadero> listaEntities = parqueaderoService.obtenerListaParqueadero();
-		Collection<ParqueaderoDTO> parqueaderoDtoLista = ParqueaderoAdapter.getInstance()
-				.getListaParqueaderoDTO(listaEntities).get();
-		return parqueaderoDtoLista;
+		
+		Optional<Collection<ParqueaderoDTO>> listaOptional = ParqueaderoAdapter.getInstance()
+				.getListaParqueaderoDTO(listaEntities);
+		
+		return listaOptional.isPresent() ? listaOptional.get() : new ArrayList<>();
 	}
 
 	/**
@@ -95,16 +83,26 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 		Optional<Parqueadero> entity = parqueaderoService.obtenerParqueadero(parqueaderoDTO.getId());
 		Optional<ParqueaderoDTO> parqueaderoOptional = ParqueaderoAdapter.getInstance().obtenerDTO(entity);
 		
-		if (!parqueaderoOptional.isPresent())
-			return ParqueaderoDTO.builder().build();
+		if (!parqueaderoOptional.isPresent()) {
+			throw new ParqueaderoException(DetailError.builder()
+					.detail("Objeto parqueadero vacio")
+					.title("Objeto parqueadero vacio")
+					.timeStamp(Instant.now().getEpochSecond())
+					.build());
+		}
 		
 		ParqueaderoDTO parqueadero = parqueaderoOptional.get();
 		
 		Optional< Tarifa > tarifaOptional = tarifaService.findByCodigoTipoVehiculo(
 				parqueadero.getTipoVehiculo().getCodigo());
 
-		if ( !tarifaOptional.isPresent())
-			return ParqueaderoDTO.builder().build();
+		if ( !tarifaOptional.isPresent()) {
+			throw new ParqueaderoException(DetailError.builder()
+					.detail("Objeto tarifa vacio")
+					.title("Objeto tarifa vacio")
+					.timeStamp(Instant.now().getEpochSecond())
+					.build());
+		}
 		
 		Tarifa tarifa = tarifaOptional.get();
 			
@@ -142,32 +140,35 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	/**
 	 * verifica el ingreso de la placa
 	 */
-	private boolean verificarIngresoPlaca(ParqueaderoDTO parqueaderoDTO) {
+	private void verificarIngresoPlaca(ParqueaderoDTO parqueaderoDTO) {
 
 		if ( !parqueaderoDTO.getPlacaVehiculo()
 				.startsWith(parqueaderoDTO.getTipoVehiculo().getPlacaBloqueada()))
-			return Boolean.TRUE;
+			return;
 
 		if (!parqueaderoDTO.getTipoVehiculo()
-				.getDiasPermitidos().contains(ConstantesParqueadero.DIA_SEMANA()))
-			return Boolean.FALSE;
-
-		return Boolean.TRUE;
+				.getDiasPermitidos().contains(ConstantesParqueadero.diaSemana())){
+			throw new ParqueaderoException(DetailError.builder()
+					.detail("Placa Inabilitada para parquear")
+					.title("Placa Inabilitada para parquear")
+					.timeStamp(Instant.now().getEpochSecond())
+					.build());
+		}
 	}
 
 	/**
 	 * metodo que valida si existe el parqueadero
 	 */
-	private boolean existeCupoParqueadero(ParqueaderoDTO parqueaderoDTO) {
+	private void existeCupoParqueadero(ParqueaderoDTO parqueaderoDTO) {
 		Optional<Integer> cupoVehiculo = parqueaderoService
 				.obtenerCupoParqueadero(ConstantesParqueadero.ASIGNADO, parqueaderoDTO.getTipoVehiculo().getId());
-		
-		if (!cupoVehiculo.isPresent())
-			return Boolean.TRUE;
-		
-		if (cupoVehiculo.get() >= parqueaderoDTO.getTipoVehiculo().getCupo())
-			return Boolean.FALSE;
-		return Boolean.TRUE;
+		if (cupoVehiculo.get() >= parqueaderoDTO.getTipoVehiculo().getCupo()) {
+			throw new ParqueaderoException(DetailError.builder()
+					.detail("Cupo de parqueadero lleno")
+					.title("Parqueadero lleno")
+					.timeStamp(Instant.now().getEpochSecond())
+					.build());
+		}
 	}
 
 	/**

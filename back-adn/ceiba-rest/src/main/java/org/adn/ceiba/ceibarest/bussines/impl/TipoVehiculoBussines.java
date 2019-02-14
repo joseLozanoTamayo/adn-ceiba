@@ -1,6 +1,7 @@
 package org.adn.ceiba.ceibarest.bussines.impl;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.adn.ceiba.ceibarest.adapter.TipoVehiculoAdapter;
 import org.adn.ceiba.ceibarest.bussines.ITipoVehiculoBussines;
@@ -24,7 +25,10 @@ public class TipoVehiculoBussines implements ITipoVehiculoBussines {
 	@Override
 	public Collection<TipoVehiculoDTO> obtenerTipoVehiculos() {
 		Collection<TipoVehiculo> listaEntities = tipoVehiculoService.obtenerTipoVehiculos();
-		return TipoVehiculoAdapter
-				.getInstance().getListaVehiculoDTO(listaEntities).get();
+		
+		Optional<Collection<TipoVehiculoDTO>> listaOptional = TipoVehiculoAdapter
+		.getInstance().getListaVehiculoDTO(listaEntities);
+		
+		return listaOptional.get();
 	}
 }
