@@ -51,7 +51,7 @@ public class ParqueaderoController implements IParqueaderoController {
 
 	@Override
 	@RequestMapping(value="/regitrarpago", method = RequestMethod.POST)
-	public ResponseEntity<ParqueaderoDTO> registrarPago(ParqueaderoDTO parqueaderoDTO) {
+	public ResponseEntity<ParqueaderoDTO> registrarPago( @RequestBody ParqueaderoDTO parqueaderoDTO) {
 		return new ResponseEntity<>( parqueaderoBussines.registrarPago(parqueaderoDTO), HttpStatus.ACCEPTED);
 	}
 

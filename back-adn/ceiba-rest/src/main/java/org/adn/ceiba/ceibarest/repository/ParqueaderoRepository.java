@@ -1,5 +1,6 @@
 package org.adn.ceiba.ceibarest.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.adn.ceiba.ceibarest.entity.Parqueadero;
@@ -20,4 +21,7 @@ public interface ParqueaderoRepository extends CrudRepository<Parqueadero, Integ
 			+ "and fk_tipo_vehiculo = :tipoVehiculo ", nativeQuery = true)
 	public Optional<Integer> obtenerCupoParqueadero(@Param("estado") String estado, @Param("tipoVehiculo") Integer tipoVehiculo);
 
+	
+	public Collection<Parqueadero> findByEstado(String estado);
+	
 }

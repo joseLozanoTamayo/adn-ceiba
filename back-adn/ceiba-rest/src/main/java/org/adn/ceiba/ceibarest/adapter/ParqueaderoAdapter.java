@@ -50,6 +50,7 @@ public final class ParqueaderoAdapter {
 		Empleado empleado = empleadoOptional.orElse(Empleado.builder().build());
 
 		return Optional.of(Parqueadero.builder()
+				.id(parqueaderoDTO.getId())
 				.cilindraje(parqueaderoDTO.getCilindraje())
 				.estado(parqueaderoDTO.getEstado())
 				.horaIngreso(Timestamp.from(Instant.now()))
@@ -79,7 +80,7 @@ public final class ParqueaderoAdapter {
 				.id(parqueadero.get().getId())
 				.cilindraje(parqueadero.get().getCilindraje())
 				.estado(parqueadero.get().getEstado())
-				.horaIngreso(Timestamp.from(Instant.now()))
+				.horaIngreso(parqueadero.get().getHoraIngreso())
 				.horaSalida(parqueadero.get().getHoraSalida())
 				.nombresPropietario(parqueadero.get().getNombresPropietario())
 				.placaVehiculo(parqueadero.get().getPlacaVehiculo())
