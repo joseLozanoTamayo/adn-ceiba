@@ -117,7 +117,7 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 
 		parqueadero.setPagoTotal(parqueadero.getPagoCancelado() + parqueadero.getValorCilindraje() );
 		return parqueadero;
-	}
+	} 
 
 	/**
 	 * resgistra la salida del auto en el parqueadero
