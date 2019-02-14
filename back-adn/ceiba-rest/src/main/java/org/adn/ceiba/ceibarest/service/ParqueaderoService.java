@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.adn.ceiba.ceibarest.entity.Parqueadero;
 import org.adn.ceiba.ceibarest.repository.ParqueaderoRepository;
-import org.adn.ceiba.ceibarest.utils.ParqueaderoConstante;
+import org.adn.ceiba.ceibarest.utils.ConstantesParqueadero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +32,7 @@ public class ParqueaderoService {
 	 * 
 	 */
 	public Collection<Parqueadero> obtenerListaParqueadero(){
-		return parqueaderoRepository.findByEstado(ParqueaderoConstante.ESTADO_ASIGNADO);
+		return parqueaderoRepository.findByEstado(ConstantesParqueadero.ASIGNADO);
 	}
 
 	/**
