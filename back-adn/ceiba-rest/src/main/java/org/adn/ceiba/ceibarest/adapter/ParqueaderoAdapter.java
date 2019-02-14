@@ -52,7 +52,7 @@ public final class ParqueaderoAdapter {
 		return Optional.of(Parqueadero.builder()
 				.cilindraje(parqueaderoDTO.getCilindraje())
 				.estado(parqueaderoDTO.getEstado())
-				.horaIngreso(Objects.isNull(parqueaderoDTO.getHoraIngreso()) ? Timestamp.from(Instant.now())  : parqueaderoDTO.getHoraIngreso())
+				.horaIngreso(Timestamp.from(Instant.now()))
 				.horaSalida(parqueaderoDTO.getHoraSalida())
 				.nombresPropietario(parqueaderoDTO.getNombresPropietario())
 				.placaVehiculo(parqueaderoDTO.getPlacaVehiculo())
@@ -65,6 +65,10 @@ public final class ParqueaderoAdapter {
 	 * transforma de entidad a objeto
 	 */
 	public Optional<ParqueaderoDTO> obtenerDTO(final Optional<Parqueadero> parqueadero){
+		
+		if ( !parqueadero.isPresent()) {
+			return Optional.of(ParqueaderoDTO.builder().build());
+		}
 
 		Optional<EmpleadoDTO> empleadoDTOOptional = EmpleadoAdapter
 				.getInstance().obtenerDTO(parqueadero.orElse(Parqueadero.builder().build()).getEmpleado());
@@ -75,7 +79,7 @@ public final class ParqueaderoAdapter {
 				.id(parqueadero.get().getId())
 				.cilindraje(parqueadero.get().getCilindraje())
 				.estado(parqueadero.get().getEstado())
-				.horaIngreso(Objects.isNull(parqueadero.get().getHoraIngreso()) ? Timestamp.from(Instant.now())  : parqueadero.get().getHoraIngreso())
+				.horaIngreso(Timestamp.from(Instant.now()))
 				.horaSalida(parqueadero.get().getHoraSalida())
 				.nombresPropietario(parqueadero.get().getNombresPropietario())
 				.placaVehiculo(parqueadero.get().getPlacaVehiculo())
@@ -104,13 +108,13 @@ public final class ParqueaderoAdapter {
 					.id(entity.getId())
 					.cilindraje(entity.getCilindraje())
 					.estado(entity.getEstado())
-					.horaIngreso(Objects.isNull(entity.getHoraIngreso()) ? Timestamp.from(Instant.now())  : entity.getHoraIngreso())
-					.horaSalida(Objects.isNull(entity.getHoraSalida()) ? Timestamp.from(Instant.now())  : entity.getHoraSalida())
+					.horaIngreso(entity.getHoraIngreso())
+					.horaSalida(entity.getHoraSalida())
 					.nombresPropietario(entity.getNombresPropietario())
 					.placaVehiculo(entity.getPlacaVehiculo())
 					.empleado(empleadoDTOOptional.orElse(EmpleadoDTO.builder().build()))
 					.tipoVehiculo(tipoVehiculoOptional.orElse(TipoVehiculoDTO.builder().build()))
-					.pagoCancelado( Objects.isNull(entity.getPagoCancelado()) ? 0 : entity.getPagoCancelado() )
+					.pagoCancelado( entity.getPagoCancelado() )
 					.build());
 		});
 
