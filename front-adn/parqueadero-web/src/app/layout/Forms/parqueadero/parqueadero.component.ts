@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { petitionservice } from 'src/app/shared/services/petitions';
 import swal from 'sweetalert2';
-import { error } from '@angular/compiler/src/util';
 
 /**
  *
@@ -36,6 +35,14 @@ export class TipoVehiculo {
     placaBloqueada: string;
     vehiculo: any;
 
+}
+
+export interface Error {
+    title: string;
+    status: string;
+    detail: string;
+    timeStamp: Date;
+    developerMessage: string;
 }
 
 /**
@@ -160,11 +167,13 @@ export class ParqueaderoComponent implements OnInit {
         this.api.ejecutarPost( URL_REST, JSON.stringify(this.datos))
         .then(
                 res => {
-                    console.log(JSON.stringify(res));
+                    const error: Error = res;
+                    const type = !error ? 'success' : 'error';
+                    const mensaje = !error ? 'REGISTRO EXITOSO' : error.detail;
                     this.selectMode = true;
                     swal({
-                        type: 'success',
-                        title: 'REGISTRO EXITOSO',
+                        type: type,
+                        title: mensaje,
                         showConfirmButton: true,
                         timer: 3000,
                     }).then (
@@ -173,18 +182,14 @@ export class ParqueaderoComponent implements OnInit {
                             this.selectMode = false;
                         }
                     );
-                }, (err) => {
-                    console.log();
-                    // return err;
                 }
-        );
-        }
+            );
     }
 
     /**
      *
      */
-    private consultarTipoVehiculo(); {
+    private consultarTipoVehiculo() {
         this.api.ejecutarGet(this.URL_GET_TIPO_VEHICULO).then(
 			res => {
                 this.tipoVehiculo = res;
