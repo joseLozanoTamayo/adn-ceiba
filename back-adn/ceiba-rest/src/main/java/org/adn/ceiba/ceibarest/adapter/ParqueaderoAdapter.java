@@ -39,21 +39,17 @@ public final class ParqueaderoAdapter {
 	 */
 	public Optional<Parqueadero> obtenerEntidad(ParqueaderoDTO parqueaderoDTO) {
 
-		TipoVehiculo tipoVehiculo = TipoVehiculo.builder().build();
-		Empleado empleado = Empleado.builder().build();
 
 		Optional<TipoVehiculo> tipoVehiculoOptional = TipoVehiculoAdapter
 				.getInstance().obtenerEntidad(parqueaderoDTO.getTipoVehiculo());
 
-		if ( tipoVehiculoOptional.isPresent() ) {
-			tipoVehiculo = tipoVehiculoOptional.get();
-		}
-		Optional<Empleado> empleadoOptional = EmpleadoAdapter.getInstance().obtenerEntidad(parqueaderoDTO.getEmpleado());
-		if ( empleadoOptional.isPresent()) {
-			empleado = empleadoOptional.get();
-		}
+		TipoVehiculo tipoVehiculo = tipoVehiculoOptional.orElse(TipoVehiculo.builder().build());
 
-		Parqueadero parqueadero = Parqueadero.builder()
+		Optional<Empleado> empleadoOptional = EmpleadoAdapter.getInstance().obtenerEntidad(parqueaderoDTO.getEmpleado());
+
+		Empleado empleado = empleadoOptional.orElse(Empleado.builder().build());
+
+		return Optional.of(Parqueadero.builder()
 				.cilindraje(parqueaderoDTO.getCilindraje())
 				.estado(parqueaderoDTO.getEstado())
 				.horaIngreso(Objects.isNull(parqueaderoDTO.getHoraIngreso()) ? Timestamp.from(Instant.now())  : parqueaderoDTO.getHoraIngreso())
@@ -62,9 +58,7 @@ public final class ParqueaderoAdapter {
 				.placaVehiculo(parqueaderoDTO.getPlacaVehiculo())
 				.empleado(empleado)
 				.tipoVehiculo(tipoVehiculo)
-				.build();
-
-		return Optional.of(parqueadero);
+				.build());
 	}
 
 	/**
@@ -72,20 +66,8 @@ public final class ParqueaderoAdapter {
 	 */
 	public Optional<ParqueaderoDTO> obtenerDTO(final Optional<Parqueadero> parqueadero){
 
-		EmpleadoDTO empleadoDTO = EmpleadoDTO.builder().build();
-		TipoVehiculoDTO tipoVehiculoDTO = TipoVehiculoDTO.builder().build();
-		
 		Optional<EmpleadoDTO> empleadoDTOOptional = EmpleadoAdapter.getInstance().obtenerDTO(parqueadero.get().getEmpleado());
-
-		if ( empleadoDTOOptional.isPresent()) {
-			empleadoDTO = empleadoDTOOptional.get();
-		}
-
 		Optional<TipoVehiculoDTO> tipoVehiculoOptional = TipoVehiculoAdapter.getInstance().obtenerDTO(parqueadero.get().getTipoVehiculo());
-		if ( tipoVehiculoOptional.isPresent() ) {
-			tipoVehiculoDTO = tipoVehiculoOptional.get();
-		}
-
 
 		return Optional.of(ParqueaderoDTO.builder()
 				.id(parqueadero.get().getId())
@@ -95,8 +77,8 @@ public final class ParqueaderoAdapter {
 				.horaSalida(parqueadero.get().getHoraSalida())
 				.nombresPropietario(parqueadero.get().getNombresPropietario())
 				.placaVehiculo(parqueadero.get().getPlacaVehiculo())
-				.empleado(empleadoDTO)
-				.tipoVehiculo(tipoVehiculoDTO)
+				.empleado(empleadoDTOOptional.orElse(EmpleadoDTO.builder().build()))
+				.tipoVehiculo(tipoVehiculoOptional.orElse(TipoVehiculoDTO.builder().build()))
 				.build());
 	}
 
@@ -111,20 +93,10 @@ public final class ParqueaderoAdapter {
 
 		List<ParqueaderoDTO> lista = new ArrayList<>();
 		listaEntities.forEach(entity -> {
-			
-			EmpleadoDTO empleadoDTO = EmpleadoDTO.builder().build();
-			TipoVehiculoDTO tipoVehiculoDTO = TipoVehiculoDTO.builder().build();
-			
+
 			Optional<EmpleadoDTO> empleadoDTOOptional = EmpleadoAdapter.getInstance().obtenerDTO(entity.getEmpleado());
-			
-			if ( empleadoDTOOptional.isPresent()) {
-				empleadoDTO = empleadoDTOOptional.get();
-			}
 
 			Optional<TipoVehiculoDTO> tipoVehiculoOptional = TipoVehiculoAdapter.getInstance().obtenerDTO(entity.getTipoVehiculo());
-			if ( tipoVehiculoOptional.isPresent() ) {
-				tipoVehiculoDTO = tipoVehiculoOptional.get();
-			}
 			
 			lista.add(ParqueaderoDTO.builder()
 					.id(entity.getId())
@@ -134,8 +106,8 @@ public final class ParqueaderoAdapter {
 					.horaSalida(Objects.isNull(entity.getHoraSalida()) ? Timestamp.from(Instant.now())  : entity.getHoraSalida())
 					.nombresPropietario(entity.getNombresPropietario())
 					.placaVehiculo(entity.getPlacaVehiculo())
-					.empleado(empleadoDTO)
-					.tipoVehiculo(tipoVehiculoDTO)
+					.empleado(empleadoDTOOptional.orElse(EmpleadoDTO.builder().build()))
+					.tipoVehiculo(tipoVehiculoOptional.orElse(TipoVehiculoDTO.builder().build()))
 					.pagoCancelado( Objects.isNull(entity.getPagoCancelado()) ? 0 : entity.getPagoCancelado() )
 					.build());
 		});
