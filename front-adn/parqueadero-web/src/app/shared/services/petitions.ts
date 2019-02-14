@@ -120,7 +120,6 @@ export class petitionservice {
 	 */
 	public ejecutarPost(url, body) {
 
-		console.log(' BODY : ' + JSON.stringify(body));
 		if ( body instanceof Object) {
 			body = JSON.stringify(body);
 		}

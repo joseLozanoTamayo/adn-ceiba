@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { petitionservice } from 'src/app/shared/services/petitions';
 import swal from 'sweetalert2';
+import { error } from '@angular/compiler/src/util';
 
 /**
  *
@@ -64,8 +65,19 @@ export class ParqueaderoComponent implements OnInit {
     private URL_GET_TIPO_VEHICULO = 'tipovehiculo/obtenerlista';
     private URL_POST_PARQUEADERO = 'parqueadero/crear';
     private URL_POST_PROCESAR_PAGO = 'parqueadero/obtenerparqueadero';
+    private URL_POST_PARQUEADERO_REGISTRO = 'parqueadero/regitrarpago';
 
     constructor(public api: petitionservice) {
+       this.setValue();
+    }
+
+    ngOnInit() {
+        this.consultarTipoVehiculo();
+        this.empleado = new Empleado();
+        this.empleado.id = '1';
+    }
+
+    private setValue() {
         this.datos = {
             id : '',
             cilindraje : '',
@@ -106,12 +118,6 @@ export class ParqueaderoComponent implements OnInit {
         };
     }
 
-    ngOnInit() {
-        this.consultarTipoVehiculo();
-        this.empleado = new Empleado();
-        this.empleado.id = '1';
-    }
-
     /**
      *
      * @param item
@@ -145,14 +151,16 @@ export class ParqueaderoComponent implements OnInit {
      * guarda registros de propietario
      */
     guardar() {
-        if (!this.datos.id) {
-            this.datos.estado = !this.datos.id ? 'ASIGNADO' : 'CANCELADO';
-        }
-            this.datos.empleado = this.empleado;
-            this.api.ejecutarPost( this.URL_POST_PARQUEADERO,
-                JSON.stringify(this.datos)
-            ).then(
+
+        this.datos.estado = !this.datos.id ? 'ASIGNADO' : 'CANCELADO';
+        this.datos.empleado = this.empleado;
+
+        const URL_REST = !this.datos.id ? this.URL_POST_PARQUEADERO : this.URL_POST_PARQUEADERO_REGISTRO;
+
+        this.api.ejecutarPost( URL_REST, JSON.stringify(this.datos))
+        .then(
                 res => {
+                    console.log(JSON.stringify(res));
                     this.selectMode = true;
                     swal({
                         type: 'success',
@@ -161,16 +169,22 @@ export class ParqueaderoComponent implements OnInit {
                         timer: 3000,
                     }).then (
                         val => {
+                            this.setValue();
                             this.selectMode = false;
                         }
                     );
+                }, (err) => {
+                    console.log();
+                    // return err;
                 }
-            );
-
-
+        );
+        }
     }
 
-    private consultarTipoVehiculo() {
+    /**
+     *
+     */
+    private consultarTipoVehiculo(); {
         this.api.ejecutarGet(this.URL_GET_TIPO_VEHICULO).then(
 			res => {
                 this.tipoVehiculo = res;

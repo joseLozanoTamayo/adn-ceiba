@@ -1,5 +1,6 @@
 package org.adn.ceiba.ceibarest.bussines.impl;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -105,7 +106,9 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 		}
 		
 		Tarifa tarifa = tarifaOptional.get();
-			
+		if ( Objects.isNull(parqueadero.getHoraSalida()))
+			parqueadero.setHoraSalida( Timestamp.valueOf(LocalDateTime.now()) );
+		
 		parqueadero.setPagoCancelado(calcularMontoFecha(
 				parqueadero.getHoraIngreso().toLocalDateTime(), 
 				parqueadero.getHoraSalida().toLocalDateTime(), 
