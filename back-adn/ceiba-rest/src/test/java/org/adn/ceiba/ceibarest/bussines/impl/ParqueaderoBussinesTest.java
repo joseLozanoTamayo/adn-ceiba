@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.adn.ceiba.ceibarest.dto.ParqueaderoDTO;
 import org.adn.ceiba.ceibarest.entity.Parqueadero;
+import org.adn.ceiba.ceibarest.exception.ParqueaderoException;
 import org.adn.ceiba.ceibarest.service.ParqueaderoService;
 import org.adn.ceiba.ceibarest.service.TarifaService;
 import org.adn.ceiba.ceibarest.utils.ParqueaderoConstante;
@@ -239,7 +240,7 @@ public final class ParqueaderoBussinesTest {
 		ParqueaderoConstante.PARQUEADERO_CARRO.get().setPagoCancelado(0L);
 
 		when(parqueaderoService.obtenerCupoParqueadero(Mockito.anyString(), Mockito.anyInt())).thenReturn(Optional.of(0));
-		when(parqueaderoService.crear(Mockito.anyObject())).thenReturn(ParqueaderoConstante.PARQUEADERO_CARRO.get());
+		when(parqueaderoService.crear(Mockito.any())).thenReturn(ParqueaderoConstante.PARQUEADERO_CARRO.get());
 		
 		ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get().getTipoVehiculo().setDiasPermitidos("LU-MA-MI-JU-VI-SA-DO");
 		ParqueaderoDTO response = parqueaderoBussines.crear(ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get());
@@ -257,12 +258,42 @@ public final class ParqueaderoBussinesTest {
 		ParqueaderoConstante.PARQUEADERO_MOTO.get().setPagoCancelado(0L);
 
 		when(parqueaderoService.obtenerCupoParqueadero(Mockito.anyString(), Mockito.anyInt())).thenReturn(Optional.of(0));
-		when(parqueaderoService.crear(Mockito.anyObject())).thenReturn(ParqueaderoConstante.PARQUEADERO_MOTO.get());
+		when(parqueaderoService.crear(Mockito.any())).thenReturn(ParqueaderoConstante.PARQUEADERO_MOTO.get());
 
 		ParqueaderoConstante.PARQUEADERO_DTO_MOTO.get().getTipoVehiculo().setDiasPermitidos("LU-MA-MI-JU-VI-SA-DO");
 		ParqueaderoDTO response = parqueaderoBussines.crear(ParqueaderoConstante.PARQUEADERO_DTO_MOTO.get());
 
 		Assert.assertNotNull("Id objeto Vacio", ((ParqueaderoDTO)response).getId());
+	}
+	
+	/**
+	 * 
+	 */
+	@Test(expected = ParqueaderoException.class)
+	public void obtenerParqueaderoException () {
+		when(parqueaderoService.obtenerParqueadero(Mockito.anyInt())).thenReturn(Optional.ofNullable(null));
+		
+		ParqueaderoDTO response = parqueaderoBussines.obtenerParqueadero(ParqueaderoConstante.PARQUEADERO_DTO_MOTO.get());
+
+		Assert.assertNotNull(response);
+		Assert.assertNotNull(response.getId());
+		
+	}
+	
+	/**
+	 * 
+	 */
+	@Test(expected = ParqueaderoException.class)
+	public void verifyObtenerParqueaderoExceptionTarifa() {
+		
+		when(parqueaderoService.obtenerParqueadero(Mockito.anyInt())).thenReturn(ParqueaderoConstante.PARQUEADERO_MOTO);
+		when(tarifaService.findByCodigoTipoVehiculo(Mockito.anyString())).thenReturn(Optional.ofNullable(null));
+		
+		ParqueaderoDTO response = parqueaderoBussines.obtenerParqueadero(ParqueaderoConstante.PARQUEADERO_DTO_MOTO.get());
+
+		Assert.assertNotNull(response);
+		Assert.assertNotNull(response.getId());
+		
 	}
 	
 

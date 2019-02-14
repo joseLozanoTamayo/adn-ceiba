@@ -81,9 +81,8 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	public ParqueaderoDTO obtenerParqueadero(ParqueaderoDTO parqueaderoDTO) {
 
 		Optional<Parqueadero> entity = parqueaderoService.obtenerParqueadero(parqueaderoDTO.getId());
-		Optional<ParqueaderoDTO> parqueaderoOptional = ParqueaderoAdapter.getInstance().obtenerDTO(entity);
 		
-		if (!parqueaderoOptional.isPresent()) {
+		if (!entity.isPresent()) {
 			throw new ParqueaderoException(DetailError.builder()
 					.detail("Objeto parqueadero vacio")
 					.title("Objeto parqueadero vacio")
@@ -91,6 +90,7 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 					.build());
 		}
 		
+		Optional<ParqueaderoDTO> parqueaderoOptional = ParqueaderoAdapter.getInstance().obtenerDTO(entity);
 		ParqueaderoDTO parqueadero = parqueaderoOptional.get();
 		
 		Optional< Tarifa > tarifaOptional = tarifaService.findByCodigoTipoVehiculo(
@@ -162,7 +162,7 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	private void existeCupoParqueadero(ParqueaderoDTO parqueaderoDTO) {
 		Optional<Integer> cupoVehiculo = parqueaderoService
 				.obtenerCupoParqueadero(ConstantesParqueadero.ASIGNADO, parqueaderoDTO.getTipoVehiculo().getId());
-		if ( cupoVehiculo.isPresent() && cupoVehiculo.get() >= parqueaderoDTO.getTipoVehiculo().getCupo()) {
+		if ( !cupoVehiculo.isPresent() || cupoVehiculo.orElse(-1) >= parqueaderoDTO.getTipoVehiculo().getCupo()) {
 			throw new ParqueaderoException(DetailError.builder()
 					.detail("Cupo de parqueadero lleno")
 					.title("Parqueadero lleno")
