@@ -16,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -44,20 +43,6 @@ public class ParqueaderoControllerTest {
 		MockitoAnnotations.initMocks(this);
 	}
 		
-	/**
-	 * Verify ping.
-	 *
-	 * @throws Exception the exception
-	 */
-	@Test
-	public void verifyPing() throws Exception {
-		MvcResult response = mockMvc.perform(MockMvcRequestBuilders.get("/parqueadero/ping")
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andDo(print())
-				.andReturn();
-	}
-	
 	/**
 	 * Verifyfind all.
 	 *
