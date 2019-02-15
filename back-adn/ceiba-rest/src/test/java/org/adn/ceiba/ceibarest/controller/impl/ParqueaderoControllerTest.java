@@ -1,37 +1,119 @@
 package org.adn.ceiba.ceibarest.controller.impl;
 
-import org.adn.ceiba.ceibarest.bussines.impl.ParqueaderoBussines;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
+import org.adn.ceiba.ceibarest.controller.IParqueaderoController;
 import org.adn.ceiba.ceibarest.utils.ParqueaderoConstante;
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.env.Environment;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
+@RunWith(MockitoJUnitRunner.class)
+@ContextConfiguration(classes =  {IParqueaderoController.class})
 public class ParqueaderoControllerTest {
 
-	@Autowired
-	private ParqueaderoBussines parqueaderoBussines;
+	/** The mock mvc. */
+	private MockMvc mockMvc;
 
-	@Autowired
-    private MockMvc mockMvc;
+	@Mock
+	private ParqueaderoController parqueaderpController;
+	
+
+	/**
+	 * Setup.
+	 */
+	@Before
+	public void setup() {
+		this.mockMvc = MockMvcBuilders.standaloneSetup(parqueaderpController).build();
+		MockitoAnnotations.initMocks(this);
+	}
+		
+	/**
+	 * Verify ping.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void verifyPing() throws Exception {
+		MvcResult response = mockMvc.perform(MockMvcRequestBuilders.get("/parqueadero/ping")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andDo(print())
+				.andReturn();
+	}
+	
+	/**
+	 * Verifyfind all.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void verifyObtenerlista() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/parqueadero/obtenerLista")
+		.accept(MediaType.APPLICATION_JSON))
+		.andExpect(MockMvcResultMatchers.status().isOk())
+		.andDo(print());
+	}
 	
 	@Test
-	public void pingEndpointIsOK() throws Exception {
-		RequestBuilder requestBuilder = MockMvcRequestBuilders
-				.get(ParqueaderoConstante.URL_CONTROLLER + ParqueaderoConstante.REST_GET_URL);
-		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-		Assert.assertEquals(200, result.getResponse().getStatus());
+	public void verifiOptenerParqueadero() throws Exception{
+		MockHttpServletResponse response = mockMvc.perform(
+	            post("/parqueadero/obtenerparqueadero",ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get())
+	                    .contentType(MediaType.APPLICATION_JSON)
+	                    .content(asJsonString(ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get()))).andReturn().getResponse();
+		
+		assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
 	}
+	
+	@Test
+	public void verifiCrear() throws Exception{
+		MockHttpServletResponse response = mockMvc.perform(
+	            post("/parqueadero/crear",ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get())
+	                    .contentType(MediaType.APPLICATION_JSON)
+	                    .content(asJsonString(ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get()))).andReturn().getResponse();
+		
+		assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+	}
+	
+	@Test
+	public void verifiregistrarPago() throws Exception {
+		MockHttpServletResponse response = mockMvc.perform(
+	            post("/parqueadero/crear",ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get())
+	                    .contentType(MediaType.APPLICATION_JSON)
+	                    .content(asJsonString(ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get()))).andReturn().getResponse();
+		
+		assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+	}
+	
+	/**
+	 * As json string.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
+	private static String asJsonString(final Object obj) {
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            return mapper.writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

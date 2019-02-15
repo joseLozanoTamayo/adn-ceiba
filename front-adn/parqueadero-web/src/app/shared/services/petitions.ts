@@ -120,7 +120,6 @@ export class petitionservice {
 	 */
 	public ejecutarPost(url, body) {
 
-		console.log(' BODY : ' + JSON.stringify(body));
 		if ( body instanceof Object) {
 			body = JSON.stringify(body);
 		}
@@ -131,6 +130,7 @@ export class petitionservice {
 				return res;
 			},
 			(err) => {
+				console.log(' response err : ' + JSON.stringify(err));
 				return err;
 			}
 		);
@@ -173,7 +173,6 @@ export class petitionservice {
 			`body was: ${error.error}`);
 		}
 		// return an observable with a user-facing error message
-		return throwError(
-		  'Something bad happened; please try again later.');
+		return throwError(error.error);
 	  }
 }

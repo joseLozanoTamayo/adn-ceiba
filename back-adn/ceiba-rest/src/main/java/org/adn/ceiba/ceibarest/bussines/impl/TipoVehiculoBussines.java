@@ -1,5 +1,6 @@
 package org.adn.ceiba.ceibarest.bussines.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -29,6 +30,6 @@ public class TipoVehiculoBussines implements ITipoVehiculoBussines {
 		Optional<Collection<TipoVehiculoDTO>> listaOptional = TipoVehiculoAdapter
 		.getInstance().getListaVehiculoDTO(listaEntities);
 		
-		return listaOptional.get();
+		return listaOptional.orElse(new ArrayList<>());
 	}
 }
