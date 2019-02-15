@@ -2,7 +2,6 @@ package org.adn.ceiba.ceibarest.controller.impl;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-import org.adn.ceiba.ceibarest.controller.ITipoVehiculoController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @RunWith(MockitoJUnitRunner.class)
-@ContextConfiguration(classes =  {ITipoVehiculoController.class})
+@ContextConfiguration(classes =  {TipoVehiculoController.class})
 public class TipoVehiculoControllerTest {
 
 	/** The mock mvc. */
