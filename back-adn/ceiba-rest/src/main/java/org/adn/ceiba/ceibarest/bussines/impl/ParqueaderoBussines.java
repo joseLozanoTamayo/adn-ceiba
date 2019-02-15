@@ -146,8 +146,13 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	private void verificarIngresoPlaca(ParqueaderoDTO parqueaderoDTO) {
 
 		if ( !parqueaderoDTO.getPlacaVehiculo()
-				.startsWith(parqueaderoDTO.getTipoVehiculo().getPlacaBloqueada()))
-			return;
+				.startsWith(parqueaderoDTO.getTipoVehiculo().getPlacaBloqueada())) {
+			throw new ParqueaderoException(DetailError.builder()
+					.detail("Placa Bloqueada para ingreso")
+					.title("Placa Bloqueada para ingreso")
+					.timeStamp(Instant.now().getEpochSecond())
+					.build());
+		}
 
 		if (!parqueaderoDTO.getTipoVehiculo()
 				.getDiasPermitidos().contains(ConstantesParqueadero.diaSemana())){
