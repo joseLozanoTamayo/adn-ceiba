@@ -8,7 +8,7 @@ import org.adn.ceiba.ceibarest.adapter.TipoVehiculoAdapter;
 import org.adn.ceiba.ceibarest.bussines.ITipoVehiculoBussines;
 import org.adn.ceiba.ceibarest.dto.TipoVehiculoDTO;
 import org.adn.ceiba.ceibarest.entity.TipoVehiculo;
-import org.adn.ceiba.ceibarest.service.TipoVehiculoService;
+import org.adn.ceiba.ceibarest.repository.TipoVehiculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +21,11 @@ import org.springframework.stereotype.Service;
 public class TipoVehiculoBussines implements ITipoVehiculoBussines {
 
 	@Autowired
-	private TipoVehiculoService tipoVehiculoService;
+	private TipoVehiculoRepository tipoVehiculoRepository;
 
 	@Override
 	public Collection<TipoVehiculoDTO> obtenerTipoVehiculos() {
-		Collection<TipoVehiculo> listaEntities = tipoVehiculoService.obtenerTipoVehiculos();
+		Collection<TipoVehiculo> listaEntities = (Collection<TipoVehiculo>) tipoVehiculoRepository.findAll();
 		
 		Optional<Collection<TipoVehiculoDTO>> listaOptional = TipoVehiculoAdapter
 		.getInstance().getListaVehiculoDTO(listaEntities);
