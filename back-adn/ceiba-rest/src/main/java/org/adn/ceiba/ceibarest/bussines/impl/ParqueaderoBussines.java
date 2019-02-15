@@ -12,7 +12,6 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.adn.ceiba.ceibarest.adapter.ParqueaderoAdapter;
-import org.adn.ceiba.ceibarest.bussines.IParqueaderoBussines;
 import org.adn.ceiba.ceibarest.dto.ParqueaderoDTO;
 import org.adn.ceiba.ceibarest.entity.Parqueadero;
 import org.adn.ceiba.ceibarest.entity.Tarifa;
@@ -31,7 +30,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Transactional
-public class ParqueaderoBussines implements IParqueaderoBussines {
+public class ParqueaderoBussines {
 
 	@Autowired
 	private ParqueaderoRepository parqueaderoService;
@@ -42,7 +41,6 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	/**
 	 * Metodo que registra parqueadero
 	 */
-	@Override
 	public ParqueaderoDTO crear(ParqueaderoDTO parqueaderoDTO) {
 
 		existeCupoParqueadero(parqueaderoDTO);
@@ -65,7 +63,6 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	/**
 	 * obtiene lista de parqueaderos
 	 */
-	@Override
 	public Collection<ParqueaderoDTO> obtenerListaParqueadero() {
 		Collection<Parqueadero> listaEntities = parqueaderoService.findByEstado(ConstantesParqueadero.ASIGNADO);
 		
@@ -78,7 +75,6 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	/**
 	 * obtener parqueadero por medio del id
 	 */
-	@Override
 	public ParqueaderoDTO obtenerParqueadero(ParqueaderoDTO parqueaderoDTO) {
 
 		Optional<Parqueadero> entity = parqueaderoService.findById(parqueaderoDTO.getId());
@@ -125,7 +121,6 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	/**
 	 * resgistra la salida del auto en el parqueadero
 	 */
-	@Override
 	public ParqueaderoDTO registrarPago(ParqueaderoDTO parqueaderoDTO) {
 
 		Optional<Parqueadero> entidad = ParqueaderoAdapter.getInstance().obtenerEntidad(parqueaderoDTO);

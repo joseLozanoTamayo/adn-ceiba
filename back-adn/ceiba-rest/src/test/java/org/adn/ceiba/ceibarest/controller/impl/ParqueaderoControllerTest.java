@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-import org.adn.ceiba.ceibarest.controller.IParqueaderoController;
 import org.adn.ceiba.ceibarest.utils.ParqueaderoConstante;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @RunWith(MockitoJUnitRunner.class)
-@ContextConfiguration(classes =  {IParqueaderoController.class})
+@ContextConfiguration(classes =  {ParqueaderoController.class})
 public class ParqueaderoControllerTest {
 
 	/** The mock mvc. */
