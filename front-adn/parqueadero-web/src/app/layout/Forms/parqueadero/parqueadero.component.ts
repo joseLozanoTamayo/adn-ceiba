@@ -130,7 +130,6 @@ export class ParqueaderoComponent implements OnInit {
      * @param item
      */
     rowSelect(item) {
-        console.log(' DATA SELECT ' + JSON.stringify(item));
         this.selectMode = true;
         this.datos.id = item['serial'];
 
@@ -193,7 +192,6 @@ export class ParqueaderoComponent implements OnInit {
         this.api.ejecutarGet(this.URL_GET_TIPO_VEHICULO).then(
 			res => {
                 this.tipoVehiculo = res;
-                // this.datos.tipoVehiculo = this.tipoVehiculo[0];
 			}
 		);
     }

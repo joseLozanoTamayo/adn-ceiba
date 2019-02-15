@@ -10,8 +10,8 @@ import java.util.Optional;
 import org.adn.ceiba.ceibarest.dto.ParqueaderoDTO;
 import org.adn.ceiba.ceibarest.entity.Parqueadero;
 import org.adn.ceiba.ceibarest.exception.ParqueaderoException;
-import org.adn.ceiba.ceibarest.service.ParqueaderoService;
-import org.adn.ceiba.ceibarest.service.TarifaService;
+import org.adn.ceiba.ceibarest.repository.ParqueaderoRepository;
+import org.adn.ceiba.ceibarest.repository.TarifaRepository;
 import org.adn.ceiba.ceibarest.utils.ParqueaderoConstante;
 import org.adn.ceiba.ceibarest.utils.TarifaConstantes;
 import org.junit.Assert;
@@ -24,8 +24,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import lombok.extern.slf4j.Slf4j;
-
 
 /**
  * 
@@ -33,17 +31,16 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-@Slf4j
 public final class ParqueaderoBussinesTest {
 
 	@InjectMocks
 	private ParqueaderoBussines parqueaderoBussines;
 
 	@Mock
-	private ParqueaderoService parqueaderoService;
+	private ParqueaderoRepository parqueaderoService;
 
 	@Mock
-	private TarifaService tarifaService;
+	private TarifaRepository tarifaService;
 	
 	private Collection<Parqueadero> listaParqueadero = new ArrayList<>();
 	
@@ -61,9 +58,8 @@ public final class ParqueaderoBussinesTest {
 	 */
 	@Test
 	public void verifyObtenerParqueaderoLista() {
-		when(parqueaderoService.obtenerListaParqueadero()).thenReturn(listaParqueadero);
+		when(parqueaderoService.findByEstado(Mockito.anyString())).thenReturn(listaParqueadero);
 		Collection<ParqueaderoDTO> responseLista = parqueaderoBussines.obtenerListaParqueadero();
-		log.info(" Response : " + responseLista);
 		Assert.assertNotNull(responseLista);
 	}
 	
@@ -72,7 +68,7 @@ public final class ParqueaderoBussinesTest {
 	 */
 	@Test
 	public void verifyParqueaderoListaEmpty() {
-		when(parqueaderoService.obtenerListaParqueadero()).thenReturn(ParqueaderoConstante.PARQUEADERO_NULL);
+		when(parqueaderoService.findByEstado(Mockito.anyString())).thenReturn(ParqueaderoConstante.PARQUEADERO_NULL);
 		Collection<ParqueaderoDTO> lista = parqueaderoBussines.obtenerListaParqueadero();
 		Assert.assertTrue( lista.isEmpty() );
 	}
@@ -82,7 +78,7 @@ public final class ParqueaderoBussinesTest {
 	 */
 	@Test
 	public void verifyParqueaderoListaValue() {
-		when(parqueaderoService.obtenerListaParqueadero()).thenReturn(listaParqueadero);
+		when(parqueaderoService.findByEstado(Mockito.anyString())).thenReturn(listaParqueadero);
 		Collection<ParqueaderoDTO> parqueaderos = parqueaderoBussines.obtenerListaParqueadero();
 		parqueaderos.forEach(parqueadero -> {
 			
@@ -104,7 +100,7 @@ public final class ParqueaderoBussinesTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void verifyParqueaderoListaException() {
-		when(parqueaderoService.obtenerListaParqueadero())
+		when(parqueaderoService.findByEstado(Mockito.anyString()))
 		.thenThrow(new NullPointerException("Error occurred"));
 		Collection<ParqueaderoDTO> parqueaderos = parqueaderoBussines.obtenerListaParqueadero();
 		Assert.assertTrue( parqueaderos.isEmpty() );
@@ -116,7 +112,7 @@ public final class ParqueaderoBussinesTest {
 	@Test
 	public void verifyObtenerParqueadero() {
 		
-		when(parqueaderoService.obtenerParqueadero(Mockito.anyInt())).thenReturn(ParqueaderoConstante.PARQUEADERO_MOTO);
+		when(parqueaderoService.findById(Mockito.anyInt())).thenReturn(ParqueaderoConstante.PARQUEADERO_MOTO);
 		when(tarifaService.findByCodigoTipoVehiculo(Mockito.anyString())).thenReturn(TarifaConstantes.TARIFA_MOTO);
 		
 		ParqueaderoDTO response = parqueaderoBussines.obtenerParqueadero(ParqueaderoConstante.PARQUEADERO_DTO_MOTO.get());
@@ -133,7 +129,7 @@ public final class ParqueaderoBussinesTest {
 		.setHoraSalida(Timestamp.valueOf(
 				ParqueaderoConstante.PARQUEADERO_MOTO.get().getHoraIngreso().toLocalDateTime().plusMinutes(5)));
 				
-		when(parqueaderoService.obtenerParqueadero(Mockito.anyInt())).thenReturn(ParqueaderoConstante.PARQUEADERO_MOTO);
+		when(parqueaderoService.findById(Mockito.anyInt())).thenReturn(ParqueaderoConstante.PARQUEADERO_MOTO);
 		when(tarifaService.findByCodigoTipoVehiculo(Mockito.anyString())).thenReturn(TarifaConstantes.TARIFA_MOTO);
 
 		ParqueaderoDTO response = parqueaderoBussines.obtenerParqueadero(ParqueaderoConstante.PARQUEADERO_DTO_MOTO.get());
@@ -153,7 +149,7 @@ public final class ParqueaderoBussinesTest {
 		ParqueaderoConstante.PARQUEADERO_MOTO.get().setCilindraje(400L);
 		ParqueaderoConstante.PARQUEADERO_MOTO.get().setPagoCancelado(0L);
 		
-		when(parqueaderoService.obtenerParqueadero(Mockito.anyInt())).thenReturn(ParqueaderoConstante.PARQUEADERO_MOTO);
+		when(parqueaderoService.findById(Mockito.anyInt())).thenReturn(ParqueaderoConstante.PARQUEADERO_MOTO);
 		when(tarifaService.findByCodigoTipoVehiculo(Mockito.anyString())).thenReturn(TarifaConstantes.TARIFA_MOTO);
 		
 		ParqueaderoDTO response = parqueaderoBussines.obtenerParqueadero(ParqueaderoConstante.PARQUEADERO_DTO_MOTO.get());
@@ -176,7 +172,7 @@ public final class ParqueaderoBussinesTest {
 		ParqueaderoConstante.PARQUEADERO_MOTO.get().setCilindraje(700L);
 		ParqueaderoConstante.PARQUEADERO_MOTO.get().setPagoCancelado(0L);
 
-		when(parqueaderoService.obtenerParqueadero(Mockito.anyInt())).thenReturn(ParqueaderoConstante.PARQUEADERO_MOTO);
+		when(parqueaderoService.findById(Mockito.anyInt())).thenReturn(ParqueaderoConstante.PARQUEADERO_MOTO);
 		when(tarifaService.findByCodigoTipoVehiculo(Mockito.anyString())).thenReturn(TarifaConstantes.TARIFA_MOTO);
 		
 		ParqueaderoDTO response = parqueaderoBussines.obtenerParqueadero(ParqueaderoConstante.PARQUEADERO_DTO_MOTO.get());
@@ -196,7 +192,7 @@ public final class ParqueaderoBussinesTest {
 		.setHoraSalida(Timestamp.valueOf(
 				ParqueaderoConstante.PARQUEADERO_CARRO.get().getHoraIngreso().toLocalDateTime().plusMinutes(5)));
 				
-		when(parqueaderoService.obtenerParqueadero(Mockito.anyInt())).thenReturn(ParqueaderoConstante.PARQUEADERO_CARRO);
+		when(parqueaderoService.findById(Mockito.anyInt())).thenReturn(ParqueaderoConstante.PARQUEADERO_CARRO);
 		when(tarifaService.findByCodigoTipoVehiculo(Mockito.anyString())).thenReturn(TarifaConstantes.TARIFA_CARRO);
 
 		ParqueaderoDTO response = parqueaderoBussines.obtenerParqueadero(ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get());
@@ -220,7 +216,7 @@ public final class ParqueaderoBussinesTest {
 		ParqueaderoConstante.PARQUEADERO_CARRO.get().setCilindraje(0L);
 		ParqueaderoConstante.PARQUEADERO_CARRO.get().setPagoCancelado(0L);
 		
-		when(parqueaderoService.obtenerParqueadero(Mockito.anyInt())).thenReturn(ParqueaderoConstante.PARQUEADERO_CARRO);
+		when(parqueaderoService.findById(Mockito.anyInt())).thenReturn(ParqueaderoConstante.PARQUEADERO_CARRO);
 		when(tarifaService.findByCodigoTipoVehiculo(Mockito.anyString())).thenReturn(TarifaConstantes.TARIFA_CARRO);
 		
 		ParqueaderoDTO response = parqueaderoBussines.obtenerParqueadero(ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get());
@@ -240,7 +236,7 @@ public final class ParqueaderoBussinesTest {
 		ParqueaderoConstante.PARQUEADERO_CARRO.get().setPagoCancelado(0L);
 
 		when(parqueaderoService.obtenerCupoParqueadero(Mockito.anyString(), Mockito.anyInt())).thenReturn(Optional.of(0));
-		when(parqueaderoService.crear(Mockito.any())).thenReturn(ParqueaderoConstante.PARQUEADERO_CARRO.get());
+		when(parqueaderoService.save(Mockito.any())).thenReturn(ParqueaderoConstante.PARQUEADERO_CARRO.get());
 		
 		ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get().getTipoVehiculo().setDiasPermitidos("LU-MA-MI-JU-VI-SA-DO");
 		ParqueaderoDTO response = parqueaderoBussines.crear(ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get());
@@ -258,7 +254,7 @@ public final class ParqueaderoBussinesTest {
 		ParqueaderoConstante.PARQUEADERO_MOTO.get().setPagoCancelado(0L);
 
 		when(parqueaderoService.obtenerCupoParqueadero(Mockito.anyString(), Mockito.anyInt())).thenReturn(Optional.of(0));
-		when(parqueaderoService.crear(Mockito.any())).thenReturn(ParqueaderoConstante.PARQUEADERO_MOTO.get());
+		when(parqueaderoService.save(Mockito.any())).thenReturn(ParqueaderoConstante.PARQUEADERO_MOTO.get());
 
 		ParqueaderoConstante.PARQUEADERO_DTO_MOTO.get().getTipoVehiculo().setDiasPermitidos("LU-MA-MI-JU-VI-SA-DO");
 		ParqueaderoDTO response = parqueaderoBussines.crear(ParqueaderoConstante.PARQUEADERO_DTO_MOTO.get());
@@ -271,7 +267,7 @@ public final class ParqueaderoBussinesTest {
 	 */
 	@Test(expected = ParqueaderoException.class)
 	public void obtenerParqueaderoException () {
-		when(parqueaderoService.obtenerParqueadero(Mockito.anyInt())).thenReturn(Optional.ofNullable(null));
+		when(parqueaderoService.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(null));
 		
 		ParqueaderoDTO response = parqueaderoBussines.obtenerParqueadero(ParqueaderoConstante.PARQUEADERO_DTO_MOTO.get());
 
@@ -286,7 +282,7 @@ public final class ParqueaderoBussinesTest {
 	@Test(expected = ParqueaderoException.class)
 	public void verifyObtenerParqueaderoExceptionTarifa() {
 		
-		when(parqueaderoService.obtenerParqueadero(Mockito.anyInt())).thenReturn(ParqueaderoConstante.PARQUEADERO_MOTO);
+		when(parqueaderoService.findById(Mockito.anyInt())).thenReturn(ParqueaderoConstante.PARQUEADERO_MOTO);
 		when(tarifaService.findByCodigoTipoVehiculo(Mockito.anyString())).thenReturn(Optional.ofNullable(null));
 		
 		ParqueaderoDTO response = parqueaderoBussines.obtenerParqueadero(ParqueaderoConstante.PARQUEADERO_DTO_MOTO.get());
@@ -314,7 +310,7 @@ public final class ParqueaderoBussinesTest {
 	@Test
 	public void verifyRegistrarpago() {
 		
-		when(parqueaderoService.crear(Mockito.any())).thenReturn(ParqueaderoConstante.PARQUEADERO_CARRO.get());
+		when(parqueaderoService.save(Mockito.any())).thenReturn(ParqueaderoConstante.PARQUEADERO_CARRO.get());
 		ParqueaderoDTO response = parqueaderoBussines.registrarPago(ParqueaderoConstante.PARQUEADERO_DTO_CARRO.get());
 		
 		Assert.assertNotNull("Id objeto Vacio", response.getId());

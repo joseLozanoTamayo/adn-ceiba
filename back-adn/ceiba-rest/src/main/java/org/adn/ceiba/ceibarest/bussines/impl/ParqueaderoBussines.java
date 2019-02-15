@@ -18,8 +18,8 @@ import org.adn.ceiba.ceibarest.entity.Parqueadero;
 import org.adn.ceiba.ceibarest.entity.Tarifa;
 import org.adn.ceiba.ceibarest.exception.DetailError;
 import org.adn.ceiba.ceibarest.exception.ParqueaderoException;
-import org.adn.ceiba.ceibarest.service.ParqueaderoService;
-import org.adn.ceiba.ceibarest.service.TarifaService;
+import org.adn.ceiba.ceibarest.repository.ParqueaderoRepository;
+import org.adn.ceiba.ceibarest.repository.TarifaRepository;
 import org.adn.ceiba.ceibarest.utils.ConstantesParqueadero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,10 +34,10 @@ import org.springframework.stereotype.Component;
 public class ParqueaderoBussines implements IParqueaderoBussines {
 
 	@Autowired
-	private ParqueaderoService parqueaderoService;
+	private ParqueaderoRepository parqueaderoService;
 
 	@Autowired
-	private TarifaService tarifaService;
+	private TarifaRepository tarifaService;
 
 	/**
 	 * Metodo que registra parqueadero
@@ -52,7 +52,7 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 
 		Parqueadero response = Parqueadero.builder().build();
 		if (entidad.isPresent())
-			response  = parqueaderoService.crear(entidad.get());
+			response  = parqueaderoService.save(entidad.get());
 
 		if (Objects.nonNull(response) && Objects.nonNull(response.getId())) {
 			parqueaderoDTO.setId(response.getId());
@@ -67,7 +67,7 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	 */
 	@Override
 	public Collection<ParqueaderoDTO> obtenerListaParqueadero() {
-		Collection<Parqueadero> listaEntities = parqueaderoService.obtenerListaParqueadero();
+		Collection<Parqueadero> listaEntities = parqueaderoService.findByEstado(ConstantesParqueadero.ASIGNADO);
 		
 		Optional<Collection<ParqueaderoDTO>> listaOptional = ParqueaderoAdapter.getInstance()
 				.getListaParqueaderoDTO(listaEntities);
@@ -81,7 +81,7 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 	@Override
 	public ParqueaderoDTO obtenerParqueadero(ParqueaderoDTO parqueaderoDTO) {
 
-		Optional<Parqueadero> entity = parqueaderoService.obtenerParqueadero(parqueaderoDTO.getId());
+		Optional<Parqueadero> entity = parqueaderoService.findById(parqueaderoDTO.getId());
 		
 		if (!entity.isPresent()) {
 			throw new ParqueaderoException(DetailError.builder()
@@ -132,7 +132,7 @@ public class ParqueaderoBussines implements IParqueaderoBussines {
 
 		Parqueadero response = Parqueadero.builder().build();
 		if (entidad.isPresent())
-			response  = parqueaderoService.crear(entidad.get());
+			response  = parqueaderoService.save(entidad.get());
 
 		if (Objects.nonNull(response) && Objects.nonNull(response.getId()))
 			parqueaderoDTO.setId(response.getId());

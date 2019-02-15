@@ -7,7 +7,7 @@ import java.util.Collection;
 
 import org.adn.ceiba.ceibarest.dto.TipoVehiculoDTO;
 import org.adn.ceiba.ceibarest.entity.TipoVehiculo;
-import org.adn.ceiba.ceibarest.service.TipoVehiculoService;
+import org.adn.ceiba.ceibarest.repository.TipoVehiculoRepository;
 import org.adn.ceiba.ceibarest.utils.TipoVehiculoConstante;
 import org.junit.Assert;
 import org.junit.Before;
@@ -30,7 +30,7 @@ public final class TipoVehiculoBussinesTest {
 	private TipoVehiculoBussines tipoVehiculoBussines;
 
 	@Mock
-	private TipoVehiculoService tipoVehiculoService; 
+	private TipoVehiculoRepository tipoVehiculoService; 
 
 	private Collection<TipoVehiculo> tipoVehiculoLista = new ArrayList<>();
 
@@ -45,7 +45,7 @@ public final class TipoVehiculoBussinesTest {
 	 */
 	@Test
 	public void verifyObtenerTipoVehiculosNotNull() {
-		when(tipoVehiculoService.obtenerTipoVehiculos()).thenReturn(tipoVehiculoLista);
+		when(tipoVehiculoService.findAll()).thenReturn(tipoVehiculoLista);
 		Assert.assertNotNull("La lista tipo vehiculo es empty", tipoVehiculoBussines.obtenerTipoVehiculos());
 	}
 
@@ -54,7 +54,7 @@ public final class TipoVehiculoBussinesTest {
 	 */
 	@Test
 	public void verifyTipoVehiculoVecioEmpty() {
-		when(tipoVehiculoService.obtenerTipoVehiculos()).thenReturn(TipoVehiculoConstante.TIPO_VEHICULO_LISTA_NULL);
+		when(tipoVehiculoService.findAll()).thenReturn(TipoVehiculoConstante.TIPO_VEHICULO_LISTA_NULL);
 		Collection<TipoVehiculoDTO> tipoVehiculos = tipoVehiculoBussines.obtenerTipoVehiculos();
 		Assert.assertTrue( tipoVehiculos.isEmpty() );
 	}
@@ -64,7 +64,7 @@ public final class TipoVehiculoBussinesTest {
 	 */
 	@Test
 	public void verifyTipoVehiculoValue() {
-		when(tipoVehiculoService.obtenerTipoVehiculos()).thenReturn(tipoVehiculoLista);
+		when(tipoVehiculoService.findAll()).thenReturn(tipoVehiculoLista);
 		Collection<TipoVehiculoDTO> listaTipoVehiculo = tipoVehiculoBussines.obtenerTipoVehiculos();
 		listaTipoVehiculo.forEach(tipoVehiculo -> {
 			Assert.assertTrue(tipoVehiculo.getId().equals(TipoVehiculoConstante.ID) );
@@ -81,7 +81,7 @@ public final class TipoVehiculoBussinesTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void verifyTipoVehiculoException() {
-		when(tipoVehiculoService.obtenerTipoVehiculos())
+		when(tipoVehiculoService.findAll())
 		.thenThrow(new NullPointerException("Error occurred"));
 		Collection<TipoVehiculoDTO> tipoVehiculos = tipoVehiculoBussines.obtenerTipoVehiculos();
 		Assert.assertTrue( tipoVehiculos.isEmpty() );
